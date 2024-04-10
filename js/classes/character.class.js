@@ -73,7 +73,7 @@ class Character extends MovableObject {
 
 
     constructor() {
-        super().loadImage('img/2_character_pepe/2_walk/W-21.png')
+        super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png')
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_WALKING);
@@ -113,23 +113,19 @@ class Character extends MovableObject {
         setInterval(() => {
 
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD, 200); // Geschwindigkeit für Todesanimation: 200 Millisekunden pro Frame
+                this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT, 100); // Geschwindigkeit für Verletzungsanimation: 100 Millisekunden pro Frame
+                this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
-                // Sprunganimation
-                this.playAnimation(this.IMAGES_JUMPING,1000); // Geschwindigkeit für Sprunganimation: 150 Millisekunden pro Frame
+                //jump Animation
+                this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                // Laufanimation
-                this.playAnimation(this.IMAGES_WALKING, 75); // Geschwindigkeit für Laufanimation: 75 Millisekunden pro Frame
-            } 
-            // else {
-            //     // Standardanimationssequenz
-            //     this.playAnimation(this.IMAGES_IDLE, 1200); // Geschwindigkeit für Idle-Animation: 120 Millisekunden pro Frame
-            //     this.playAnimation(this.IMAGES_LONG_IDLE, 1800); // Geschwindigkeit für Long-Idle-Animation: 180 Millisekunden pro Frame
-            // }
-        
-        },400);
+                //Walk Animation
+                this.playAnimation(this.IMAGES_WALKING);
+
+            }
+
+        }, 150);
 
     }
 
