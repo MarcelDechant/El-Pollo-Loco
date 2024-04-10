@@ -19,7 +19,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.y < 130;
+            return this.y < 220;
         }
     }
 
@@ -74,6 +74,6 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 20;
+        this.speedY = 15;
     }
 }

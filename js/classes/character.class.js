@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-    y = 130;
-    height = 300;
-    width = 160;
+    y = 220;
+    height = 200;
+    width = 100;
     speed = 0.1 * 30;
 
     IMAGES_IDLE = [
