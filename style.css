@@ -1,10 +1,25 @@
-body{
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 
-canvas{
+canvas {
     background-color: black;
+    display: block;
+}
+
+/*Smartphones ------------*/
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+/*Smartphones ------------*/
+@media only screen and (max-width: 480px) {
+    canvas {
+        height: 100vh;
+    }
 }

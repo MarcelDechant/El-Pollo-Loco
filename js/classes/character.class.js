@@ -6,15 +6,15 @@ class Character extends MovableObject {
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png',
-        'img/2_character_pepe/1_idle/idle/I-1.png'
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
     IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
@@ -113,21 +113,23 @@ class Character extends MovableObject {
         setInterval(() => {
 
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                this.playAnimation(this.IMAGES_DEAD, 200); // Geschwindigkeit für Todesanimation: 200 Millisekunden pro Frame
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
+                this.playAnimation(this.IMAGES_HURT, 100); // Geschwindigkeit für Verletzungsanimation: 100 Millisekunden pro Frame
             } else if (this.isAboveGround()) {
-                //jump Animation
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    //Walk Animation
-                    this.playAnimation(this.IMAGES_WALKING);
-
-                }
-            }
-        }, 150);
+                // Sprunganimation
+                this.playAnimation(this.IMAGES_JUMPING,1000); // Geschwindigkeit für Sprunganimation: 150 Millisekunden pro Frame
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                // Laufanimation
+                this.playAnimation(this.IMAGES_WALKING, 75); // Geschwindigkeit für Laufanimation: 75 Millisekunden pro Frame
+            } 
+            // else {
+            //     // Standardanimationssequenz
+            //     this.playAnimation(this.IMAGES_IDLE, 1200); // Geschwindigkeit für Idle-Animation: 120 Millisekunden pro Frame
+            //     this.playAnimation(this.IMAGES_LONG_IDLE, 1800); // Geschwindigkeit für Long-Idle-Animation: 180 Millisekunden pro Frame
+            // }
+        
+        },400);
 
     }
 
