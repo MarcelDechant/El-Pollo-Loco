@@ -2,7 +2,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-
+let intervalIds = [];
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -48,3 +48,10 @@ window.addEventListener("keyup", (e) => {
         keyboard.SPACE = false;
     }
 });
+
+function pushInterval(interval) {
+    intervalIds.push(interval);
+}
+function stopAllIntervals() {
+    intervalIds.forEach(id => clearInterval(id));
+}

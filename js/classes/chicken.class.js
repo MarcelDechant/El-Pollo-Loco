@@ -1,7 +1,13 @@
 class Chicken extends MovableObject {
-    y = 355;
+    y = 345;
     height = 60;
     width = 60;
+    offset = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    };
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -9,8 +15,12 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
 
     ];
+    
+    IMAGE_DEAD=['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
+
     walking_sound = new Audio('audio/chicken.wav')
 
+    
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0])
         this.loadImages(this.IMAGES_WALKING);
@@ -23,7 +33,7 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            // this.moveLeft();
         }, 1000 / 60);
         
 

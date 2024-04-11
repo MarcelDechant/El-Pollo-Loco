@@ -16,7 +16,7 @@ class DrawableObject {
         try {
             ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         } catch (e) {
-            console.warn('Error loading image',e);
+            console.warn('Error loading image', e);
             console.log('Could not load image', this.img.src);
         }
     }
@@ -32,12 +32,15 @@ class DrawableObject {
 
     drawFrame(ctx) {
 
-        if (this instanceof Character || this instanceof Chicken || this instanceof Chick) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
+        if (this instanceof Character || this instanceof Chicken || this instanceof Chick || this instanceof Endboss || this instanceof Coins || this instanceof Bottle || this instanceof ThrowableObject) {
+            ctx.beginPath(); // Start a new path
+            ctx.strokeStyle = 'red';
+            ctx.rect(this.x + this.offset.right, this.y + this.offset.bottom, this.width - this.offset.left, this.height - this.offset.top); // Add a rectangle to the current path
+            ctx.stroke(); // Render the path
+            ctx.beginPath(); // Start a new path
+            ctx.strokeStyle = 'Blue';
+            ctx.rect(this.x, this.y, this.width, this.height); // Add a rectangle to the current path
+            ctx.stroke(); // Render the path
         }
     }
 }

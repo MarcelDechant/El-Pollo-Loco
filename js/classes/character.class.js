@@ -3,6 +3,20 @@ class Character extends MovableObject {
     height = 200;
     width = 100;
     speed = 0.1 * 30;
+    offset = {
+        top: 90,
+        bottom: 80,
+        left: 20,
+        right: 10
+    };
+    world;
+    currentTime;
+    timeSinceLastMovement;
+    lastMovement = new Date().getTime();
+    walking_sound = new Audio('audio/walking.mp3');
+    getHurt_sound = new Audio('audio/hurt.mp3');
+    
+    snore_sound = new Audio('audio/snoring.mp3');
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -68,9 +82,6 @@ class Character extends MovableObject {
     ];
 
 
-    world;
-    walking_sound = new Audio('audio/walking.mp3')
-
 
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png')
@@ -85,23 +96,32 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.lastMovement = new Date().getTime();
+
+        const movementIntervalId = setInterval(() => {
+
+
+            
             this.walking_sound.pause();
-            this.walking_sound.volume = 0.05; //lautstäcke des sounds einstellen 
+            this.walking_sound.volume = 0.05; //lautstäcke des sounds einstellen (1 = volle Lautstärke 0 ist ton aus)
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.walking_sound.play();
+                this.lastMovement = new Date().getTime();
             }
 
             if (this.world.keyboard.LEFT && this.x > -617) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.walking_sound.play();
+                this.lastMovement = new Date().getTime();
             }
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
+                
+            }
+            if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
+                this.walking_sound.play();
             }
 
             this.world.camera_x = -this.x + 100;
@@ -110,23 +130,36 @@ class Character extends MovableObject {
 
 
 
-        setInterval(() => {
-
+        const timeIntervalId = setInterval(() => {
+            this.currentTime = new Date().getTime();
+            this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
+            if (this.timeSinceLastMovement >= 2) {
+                this.playAnimation(this.IMAGES_IDLE);
+            }
+            if (this.timeSinceLastMovement >= 5) {
+                this.playAnimation(this.IMAGES_LONG_IDLE);
+            }
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                stopAllIntervals();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+
             } else if (this.isAboveGround()) {
                 //jump Animation
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                //Walk Animation
-                this.playAnimation(this.IMAGES_WALKING);
+                
+            } else {
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    //Walk Animation
+                    this.playAnimation(this.IMAGES_WALKING);
 
+                }
             }
 
-        }, 150);
-
+        }, 120);
+        pushInterval(movementIntervalId);
+        pushInterval(timeIntervalId);
     }
 
 }

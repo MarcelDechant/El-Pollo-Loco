@@ -1,7 +1,8 @@
 class Chick extends MovableObject {
-    y=375;
+    y=365;
     height= 40;
     width = 40;
+    
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -22,7 +23,7 @@ class Chick extends MovableObject {
     }
 
     animate() {
-        this.moveLeft();
+        // this.moveLeft();
 
         setInterval(() => {
             this.walking_sound.volume=0.05;

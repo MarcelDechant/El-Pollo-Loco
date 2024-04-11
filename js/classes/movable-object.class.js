@@ -5,10 +5,16 @@ class MovableObject extends DrawableObject {
     acceleration = 1; //fallgeschwindigkeit
     energy = 100;
     lastHit = 0;
-
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+    jump_sound = new Audio('audio/jump.mp3');
     applayGravity() {
         setInterval(() => {
-            if (this.isAboveGround()  || this.speedY > 0) {
+            if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
@@ -23,19 +29,17 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    isOnGround() {
+        return this.y >= 220;
+    }
+
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
-    // isColliding (obj) {
-    //     return  (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
-    //             (this.Y + this.offsetY + this.height) >= obj.Y &&
-    //             (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
-    //             obj.onCollisionCourse;
-    // }
 
     hit() {
         this.energy -= 5;
@@ -75,5 +79,7 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 15;
+        this.jump_sound.play();
+        this.jump_sound.volume = 0.05;
     }
 }
