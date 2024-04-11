@@ -15,7 +15,6 @@ class Character extends MovableObject {
     lastMovement = new Date().getTime();
     walking_sound = new Audio('audio/walking.mp3');
     getHurt_sound = new Audio('audio/hurt.mp3');
-    
     snore_sound = new Audio('audio/snoring.mp3');
 
     IMAGES_IDLE = [
@@ -101,7 +100,7 @@ class Character extends MovableObject {
         const movementIntervalId = setInterval(() => {
 
 
-            
+            this.snore_sound.pause();
             this.walking_sound.pause();
             this.walking_sound.volume = 0.05; //lautstäcke des sounds einstellen (1 = volle Lautstärke 0 ist ton aus)
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -123,6 +122,10 @@ class Character extends MovableObject {
             if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
                 this.walking_sound.play();
             }
+            if (this.timeSinceLastMovement >= 5){
+                // this.snore_sound.play();
+                this.snore_sound.volume = 0.2;
+            }
 
             this.world.camera_x = -this.x + 100;
 
@@ -138,6 +141,7 @@ class Character extends MovableObject {
             }
             if (this.timeSinceLastMovement >= 5) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
+                
             }
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
@@ -161,5 +165,6 @@ class Character extends MovableObject {
         pushInterval(movementIntervalId);
         pushInterval(timeIntervalId);
     }
+
 
 }
