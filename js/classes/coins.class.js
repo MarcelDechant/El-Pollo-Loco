@@ -7,9 +7,9 @@ class Coins extends MovableObject {
     ]
 
     offset = {
-        top: 100,
+        top: 50,
         bottom: 50,
-        left: 60,
+        left: 30,
         right: 30
     };
 
@@ -25,11 +25,11 @@ class Coins extends MovableObject {
 
     animate() {
 
-        let animateCoin = setInterval(() => {
+         setInterval(() => {
 
             this.playAnimation(this.IMAGES_COINS);
         }, 150);
-        
+       
     }
 
 

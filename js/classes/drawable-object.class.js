@@ -35,7 +35,8 @@ class DrawableObject {
         if (this instanceof Character || this instanceof Chicken || this instanceof Chick || this instanceof Endboss || this instanceof Coins || this instanceof Bottle || this instanceof ThrowableObject) {
             ctx.beginPath(); // Start a new path
             ctx.strokeStyle = 'red';
-            ctx.rect(this.x + this.offset.right, this.y + this.offset.bottom, this.width - this.offset.left, this.height - this.offset.top); // Add a rectangle to the current path
+            ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.left -
+                this.offset.right, this.height - this.offset.top - this.offset.bottom); // Add a rectangle to the current path
             ctx.stroke(); // Render the path
             ctx.beginPath(); // Start a new path
             ctx.strokeStyle = 'Blue';

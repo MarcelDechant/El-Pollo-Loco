@@ -4,10 +4,10 @@ class Character extends MovableObject {
     width = 100;
     speed = 0.1 * 30;
     offset = {
-        top: 90,
-        bottom: 80,
-        left: 20,
-        right: 10
+        top: 80,
+        bottom: 10,
+        left: 15,
+        right: 20
     };
     world;
     currentTime;
@@ -123,7 +123,7 @@ class Character extends MovableObject {
                 this.walking_sound.play();
             }
             if (this.timeSinceLastMovement >= 5){
-                // this.snore_sound.play();
+                this.snore_sound.play();
                 this.snore_sound.volume = 0.2;
             }
 

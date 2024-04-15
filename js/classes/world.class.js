@@ -8,7 +8,11 @@ class World {
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
     statusBarBottle = new StatusBarBottle();
+    bottle_counter = 0;
+    coin_counter = 0;
     throwableObject = [];
+    collect_coin_sound = new Audio('audio/coin.mp3');
+    collect_bottle_sound = new Audio('audio/bottlePickup.mp3');
 
     constructor(canvas, keyboard) {
 
@@ -18,6 +22,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+
     }
 
     setWorld() {
@@ -26,7 +31,7 @@ class World {
 
     run() {
         setInterval(() => {
-
+            this.checkCollisionsWithItems();
             this.checkCollisions();
             this.checkThrowObjects();
         }, 200);
@@ -42,16 +47,47 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
-
-                console.log('collision with Charekter, energy', this.character.energy);
+                if (this.character.isAboveGround() && this.character.y + this.character.height - this.character.offset.bottom > enemy.y + enemy.offset.top &&
+                    this.character.y + this.character.offset.top < enemy.y + enemy.height - enemy.offset.bottom) {
+                    enemy.dead_enemy = true;
+                    this.character.jump();
+                } else
+                    this.character.hit();
                 this.statusBarLife.setPercentage(this.character.energy);
             }
 
         });
     }
+    checkCollisionsWithItems() {
+        [this.level.bottles, this.level.coins].forEach(items => {
+            items.forEach((item, index) => {
+                if (this.character.isColliding(item)) {
+                    if (item instanceof Bottle) {
+                        this.addbottle(index);
+                    } if (item instanceof Coins) {
+                        this.addCoin(index);
+                    }
+                }
+            });
+        });
 
+    }
+    addbottle(index) {
+        this.level.bottles.splice(index, 1);
+        this.bottle_counter++;
+        this.statusBarBottle.setPercentage(this.bottle_counter);
+        this.collect_bottle_sound.play();
+        this.collect_bottle_sound.volume=0.03;
+        
+    }
 
+    addCoin(index) {
+        this.level.coins.splice(index, 1);
+        this.coin_counter++;
+        this.statusBarCoins.setPercentage(this.coin_counter);
+        this.collect_coin_sound.play();
+        this.collect_coin_sound.volume=0.2;
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
