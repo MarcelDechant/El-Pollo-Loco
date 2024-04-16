@@ -123,7 +123,7 @@ class Character extends MovableObject {
                 this.walking_sound.play();
             }
             if (this.timeSinceLastMovement >= 5){
-                this.snore_sound.play();
+                // this.snore_sound.play();
                 this.snore_sound.volume = 0.2;
             }
 

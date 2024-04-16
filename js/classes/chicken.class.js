@@ -34,13 +34,13 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            // this.moveLeft();
         }, 1000 / 60);
 
 
         setInterval(() => {
             if (!this.dead_enemy) {
-                 this.walking_sound.play();
+                //  this.walking_sound.play();
                 this.walking_sound.volume = 0.03;
                 this.playAnimation(this.IMAGES_WALKING);
             }

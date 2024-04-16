@@ -47,8 +47,7 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround() && this.character.y + this.character.height - this.character.offset.bottom > enemy.y + enemy.offset.top &&
-                    this.character.y + this.character.offset.top < enemy.y + enemy.height - enemy.offset.bottom) {
+                if (this.character.isAboveGround()) {
                     enemy.dead_enemy = true;
                     this.character.jump();
                 } else
@@ -72,6 +71,7 @@ class World {
         });
 
     }
+    
     addbottle(index) {
         this.level.bottles.splice(index, 1);
         this.bottle_counter++;

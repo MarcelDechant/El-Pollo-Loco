@@ -33,21 +33,26 @@ class MovableObject extends DrawableObject {
         return this.y >= 220;
     }
 
-    
+
     isColliding(mo) {
-        const leftCollision = this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-        const rightCollision = this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-        const topCollision = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-        const bottomCollision = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-            
+        const leftCollision = this.x + this.width - this.offset.right > mo.x + mo.offset.left && this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
+        const rightCollision = this.x + this.width - this.offset.right > mo.x + mo.offset.left && this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
+        const topCollision = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+        const bottomCollision = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+
         return (leftCollision || rightCollision) && (topCollision || bottomCollision);
 
     }
-    
+
+
+//     isColliding(mo) {
+// // funktion aus dem video 'funktion is colliding() einfach erklärt'
+//         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+//             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+//             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+//             this.y + this.offset.top < mo.height - mo.offset.bottom;
+//     }
+
 
     hit() {
         this.energy -= 5;

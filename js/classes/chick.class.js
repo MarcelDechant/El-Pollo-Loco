@@ -26,7 +26,7 @@ class Chick extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            // this.moveLeft();
         }, 1000 / 60);
 
 
@@ -34,7 +34,7 @@ class Chick extends MovableObject {
         setInterval(() => {
             if (!this.dead_enemy) {
                 this.walking_sound.volume = 0.05;
-                 this.walking_sound.play();
+                //  this.walking_sound.play();
                 this.playAnimation(this.IMAGES_WALKING);
             }
             if (this.dead_enemy) {
