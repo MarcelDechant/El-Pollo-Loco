@@ -8,6 +8,7 @@ class World {
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
     statusBarBottle = new StatusBarBottle();
+    satusBarEndboss = new StatusBarEndboss();
     bottle_counter = 0;
     coin_counter = 0;
     throwableObject = [];
@@ -34,6 +35,7 @@ class World {
             this.checkCollisionsWithItems();
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollisionBottleWithEnemy()
         }, 200);
     }
 
@@ -71,14 +73,26 @@ class World {
         });
 
     }
-    
+
+    checkCollisionBottleWithEnemy() {
+        this.throwableObject.forEach((throwableObject) => {
+            this.level.enemies.forEach((enemy) => {
+                if (throwableObject.isColliding(enemy)) {
+                    enemy.dead_enemy = true;
+                    throwableObject.wasHit = true;
+
+                }
+            });
+        });
+    }
+
     addbottle(index) {
         this.level.bottles.splice(index, 1);
         this.bottle_counter++;
         this.statusBarBottle.setPercentage(this.bottle_counter);
         this.collect_bottle_sound.play();
-        this.collect_bottle_sound.volume=0.03;
-        
+        this.collect_bottle_sound.volume = 0.03;
+
     }
 
     addCoin(index) {
@@ -86,8 +100,9 @@ class World {
         this.coin_counter++;
         this.statusBarCoins.setPercentage(this.coin_counter);
         this.collect_coin_sound.play();
-        this.collect_coin_sound.volume=0.2;
+        this.collect_coin_sound.volume = 0.2;
     }
+
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -99,6 +114,7 @@ class World {
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottle);
+        this.addToMap(this.satusBarEndboss);
         //----------------------------------------
         this.ctx.translate(this.camera_x, 0);
 

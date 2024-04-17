@@ -38,10 +38,10 @@ class DrawableObject {
             ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.left -
                 this.offset.right, this.height - this.offset.top - this.offset.bottom); // Add a rectangle to the current path
             ctx.stroke(); // Render the path
-            ctx.beginPath(); // Start a new path
-            ctx.strokeStyle = 'Blue';
-            ctx.rect(this.x, this.y, this.width, this.height); // Add a rectangle to the current path
-            ctx.stroke(); // Render the path
+            // ctx.beginPath(); // Start a new path
+            // ctx.strokeStyle = 'Blue';
+            // ctx.rect(this.x, this.y, this.width, this.height); // Add a rectangle to the current path
+            // ctx.stroke(); // Render the path
         }
     }
 }
