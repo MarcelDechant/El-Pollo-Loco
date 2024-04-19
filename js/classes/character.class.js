@@ -1,22 +1,101 @@
+/**
+ * Represents a character object with specified dimensions, animations, and attributes.
+ * @class
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
+    /**
+     * The y-coordinate of the character's position.
+     * @type {number}
+     */
     y = 220;
+
+    /**
+     * The height of the character object.
+     * @type {number}
+     */
     height = 200;
+
+    /**
+     * The width of the character object.
+     * @type {number}
+     */
     width = 100;
+
+    /**
+     * The speed of the character.
+     * @type {number}
+     */
     speed = 0.1 * 30;
+
+    /**
+     * The energy level of the character.
+     * @type {number}
+     */
+    energy = 100;
+
+    /**
+     * The offset values for the character object.
+     * @type {Object}
+     * @property {number} top - The top offset.
+     * @property {number} bottom - The bottom offset.
+     * @property {number} left - The left offset.
+     * @property {number} right - The right offset.
+     */
     offset = {
         top: 80,
         bottom: 10,
         left: 15,
         right: 20
     };
+
+    /**
+     * Reference to the world object.
+     * @type {World}
+     */
     world;
+
+    /**
+     * Current time.
+     * @type {number}
+     */
     currentTime;
+
+    /**
+     * Time since last movement.
+     * @type {number}
+     */
     timeSinceLastMovement;
+
+    /**
+     * Timestamp of the last movement.
+     * @type {number}
+     */
     lastMovement = new Date().getTime();
+
+    /**
+     * Audio object for walking sound.
+     * @type {Audio}
+     */
     walking_sound = new Audio('audio/walking.mp3');
+
+    /**
+     * Audio object for hurt sound.
+     * @type {Audio}
+     */
     getHurt_sound = new Audio('audio/hurt.mp3');
+
+    /**
+     * Audio object for snoring sound.
+     * @type {Audio}
+     */
     snore_sound = new Audio('audio/snoring.mp3');
 
+    /**
+    * Array of image paths for idle animation.
+    * @type {string[]}
+    * @description This array contains the image paths for the character's idle animation.
+    */
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -29,6 +108,12 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
+
+    /**
+     * Array of image paths for long idle animation.
+     * @type {string[]}
+     * @description This array contains the image paths for the character's long idle animation.
+     */
     IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -42,6 +127,11 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ]
 
+    /**
+     * Array of image paths for walking animation.
+     * @type {string[]}
+     * @description This array contains the image paths for the character's walking animation.
+     */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -51,6 +141,11 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
+    /**
+     * Array of image paths for jumping animation.
+     * @type {string[]}
+     * @description This array contains the image paths for the character's jumping animation.
+     */
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -63,6 +158,11 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    /**
+         * Array of image paths for hurt animation.
+         * @type {string[]}
+         * @description This array contains the image paths for the character's hurt animation.
+         */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
@@ -70,6 +170,11 @@ class Character extends MovableObject {
 
     ];
 
+    /**
+         * Array of image paths for dead animation.
+         * @type {string[]}
+         * @description This array contains the image paths for the character's dead animation.
+         */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -81,25 +186,54 @@ class Character extends MovableObject {
     ];
 
 
-
+    /**
+     * Creates an instance of Character.
+     * @constructor
+     * @memberof Character
+     * @this {Character}
+     */
     constructor() {
-        super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png')
+        super(); // Call the superclass constructor
+        this.loadImage('img/2_character_pepe/1_idle/idle/I-1.png'); // Load initial image
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.applayGravity();
-        this.animate();
+        this.applayGravity(); // Apply gravity
+        this.animate(); // Start animation
     }
 
+
+    /**
+    * Animates the character object based on its state and user input.
+    * @memberof Character
+    * @function animate
+    * @this {Character}
+    */
     animate() {
+        /**
+         * Timestamp of the last movement.
+         * @type {number}
+         */
         this.lastMovement = new Date().getTime();
 
-        const movementIntervalId = setInterval(() => {
+        /**
+         * Interval for movement animation.
+         * @constant
+         * @type {number}
+         */
+        const movementInterval = 1000 / 60;
 
+        /**
+         * Interval for state animation.
+         * @constant
+         * @type {number}
+         */
+        const stateInterval = 120;
 
+        setInterval(() => {
             this.snore_sound.pause();
             this.walking_sound.pause();
             this.walking_sound.volume = 0.05; //lautstäcke des sounds einstellen (1 = volle Lautstärke 0 ist ton aus)
@@ -117,54 +251,49 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
-                
             }
             if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
                 this.walking_sound.play();
             }
-            if (this.timeSinceLastMovement >= 5){
+            if (this.timeSinceLastMovement >= 5) {
                 // this.snore_sound.play();
                 this.snore_sound.volume = 0.2;
             }
 
             this.world.camera_x = -this.x + 100;
 
-        }, 1000 / 60);
+        }, movementInterval);
 
-
-
-        const timeIntervalId = setInterval(() => {
+        setInterval(() => {
+            /**
+             * Current time.
+             * @type {number}
+             */
             this.currentTime = new Date().getTime();
+            /**
+             * Time since last movement.
+             * @type {number}
+             */
             this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
             if (this.timeSinceLastMovement >= 2) {
                 this.playAnimation(this.IMAGES_IDLE);
             }
             if (this.timeSinceLastMovement >= 5) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
-                
             }
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                stopAllIntervals();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-
             } else if (this.isAboveGround()) {
                 //jump Animation
                 this.playAnimation(this.IMAGES_JUMPING);
-                
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     //Walk Animation
                     this.playAnimation(this.IMAGES_WALKING);
-
                 }
             }
-
-        }, 120);
-        pushInterval(movementIntervalId);
-        pushInterval(timeIntervalId);
+        }, stateInterval);
     }
-
-
 }

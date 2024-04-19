@@ -1,44 +1,134 @@
+/**
+ * Represents the game world.
+ * @class
+ */
 class World {
+    /**
+     * The character in the world.
+     * @type {Character}
+     */
     character = new Character();
+
+    /**
+     * The current level.
+     * @type {Level}
+     */
     level = level1;
+
+    /**
+     * The canvas element.
+     * @type {HTMLCanvasElement}
+     */
     canvas;
+
+    /**
+     * The rendering context of the canvas.
+     * @type {CanvasRenderingContext2D}
+     */
     ctx;
+
+    /**
+     * The keyboard input.
+     * @type {Keyboard}
+     */
     keyboard;
+
+    /**
+     * The x-coordinate of the camera.
+     * @type {number}
+     */
     camera_x = 0;
+
+    /**
+     * The status bar for character life.
+     * @type {StatusBarLife}
+     */
     statusBarLife = new StatusBarLife();
+
+    /**
+     * The status bar for collected coins.
+     * @type {StatusBarCoins}
+     */
     statusBarCoins = new StatusBarCoins();
+
+    /**
+     * The status bar for collected bottles.
+     * @type {StatusBarBottle}
+     */
     statusBarBottle = new StatusBarBottle();
-    satusBarEndboss = new StatusBarEndboss();
+
+    /**
+     * The status bar for the end boss.
+     * @type {StatusBarEndboss}
+     */
+    statusBarEndboss = new StatusBarEndboss();
+
+    /**
+     * The counter for collected bottles.
+     * @type {number}
+     */
     bottle_counter = 0;
+
+    /**
+     * The counter for collected coins.
+     * @type {number}
+     */
     coin_counter = 0;
+
+    /**
+     * Array of throwable objects in the world.
+     * @type {ThrowableObject[]}
+     */
     throwableObject = [];
+
+    /**
+     * Audio for collecting coins.
+     * @type {HTMLAudioElement}
+     */
     collect_coin_sound = new Audio('audio/coin.mp3');
+
+    /**
+     * Audio for collecting bottles.
+     * @type {HTMLAudioElement}
+     */
     collect_bottle_sound = new Audio('audio/bottlePickup.mp3');
 
+    /**
+     * Creates an instance of World.
+     * @param {HTMLCanvasElement} canvas - The canvas element.
+     * @param {Keyboard} keyboard - The keyboard input.
+     */
     constructor(canvas, keyboard) {
-
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
         this.run();
-
     }
 
+    /**
+     * Sets up the world.
+     */
     setWorld() {
         this.character.world = this;
     }
 
+    /**
+     * Runs the game loop.
+     */
     run() {
         setInterval(() => {
             this.checkCollisionsWithItems();
             this.checkCollisions();
             this.checkThrowObjects();
-            this.checkCollisionBottleWithEnemy()
+            this.checkCollisionBottleWithEnemy();
         }, 200);
     }
 
+    /**
+     * Checks for throw actions and creates throwable objects.
+     */
     checkThrowObjects() {
         if (this.keyboard.SPACE) {
             let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 80);
@@ -46,6 +136,9 @@ class World {
         }
     }
 
+    /**
+     * Checks for collisions between character and enemies.
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
@@ -56,9 +149,12 @@ class World {
                     this.character.hit();
                 this.statusBarLife.setPercentage(this.character.energy);
             }
-
         });
     }
+
+    /**
+     * Checks for collisions between character and items (bottles, coins).
+     */
     checkCollisionsWithItems() {
         [this.level.bottles, this.level.coins].forEach(items => {
             items.forEach((item, index) => {
@@ -71,30 +167,42 @@ class World {
                 }
             });
         });
-
     }
 
+    /**
+     * Checks for collisions between throwable objects and enemies.
+     */
     checkCollisionBottleWithEnemy() {
         this.throwableObject.forEach((throwableObject) => {
             this.level.enemies.forEach((enemy) => {
                 if (throwableObject.isColliding(enemy)) {
                     enemy.dead_enemy = true;
                     throwableObject.wasHit = true;
-
+                }
+                if (enemy instanceof Endboss) {
+                    enemy.hit();
+                    this.statusBarEndboss.setPercentage(20);
                 }
             });
         });
     }
 
+    /**
+     * Adds a bottle to the inventory upon collection.
+     * @param {number} index - The index of the collected bottle.
+     */
     addbottle(index) {
         this.level.bottles.splice(index, 1);
         this.bottle_counter++;
         this.statusBarBottle.setPercentage(this.bottle_counter);
         this.collect_bottle_sound.play();
         this.collect_bottle_sound.volume = 0.03;
-
     }
 
+    /**
+     * Adds a coin to the inventory upon collection.
+     * @param {number} index - The index of the collected coin.
+     */
     addCoin(index) {
         this.level.coins.splice(index, 1);
         this.coin_counter++;
@@ -103,7 +211,9 @@ class World {
         this.collect_coin_sound.volume = 0.2;
     }
 
-
+    /**
+     * Renders the game world.
+     */
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -114,7 +224,7 @@ class World {
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottle);
-        this.addToMap(this.satusBarEndboss);
+        this.addToMap(this.statusBarEndboss);
         //----------------------------------------
         this.ctx.translate(this.camera_x, 0);
 
@@ -132,12 +242,20 @@ class World {
         });
     }
 
+    /**
+     * Adds multiple objects to the map.
+     * @param {DrawableObject[]} objects - The objects to add.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         })
     }
 
+    /**
+     * Adds an object to the map.
+     * @param {DrawableObject} mo - The object to add.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -146,14 +264,15 @@ class World {
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
 
-
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-
     }
 
+    /**
+     * Flips the image horizontally.
+     * @param {DrawableObject} mo - The object whose image to flip.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -161,6 +280,10 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * Restores the image's original orientation.
+     * @param {DrawableObject} mo - The object whose image to restore.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();

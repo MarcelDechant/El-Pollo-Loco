@@ -1,4 +1,5 @@
 const level1 = new Level(
+    // Array of enemies
     [
         new Chicken(),
         new Chicken(),
@@ -7,13 +8,14 @@ const level1 = new Level(
         new Chick(),
         new Chick(),
         new Endboss(),
-        
     ],
     
+    // Array of clouds
     [
         new Cloud()
     ],
 
+    // Array of background objects
     [
         new BackgroundObject('img/5_background/layers/air.png', -719),
         new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
@@ -33,6 +35,7 @@ const level1 = new Level(
         new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 719 * 2),
     ],
 
+    // Array of coins
     [
         new Coins(),
         new Coins(),
@@ -45,6 +48,7 @@ const level1 = new Level(
         new Coins()
     ],
 
+    // Array of bottles
     [
         new Bottle(),
         new Bottle(),
@@ -56,6 +60,4 @@ const level1 = new Level(
         new Bottle(),
         new Bottle()
     ],
-
-
 );
