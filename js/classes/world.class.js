@@ -63,6 +63,7 @@ class World {
      */
     statusBarEndboss = new StatusBarEndboss();
 
+    endboss = new Endboss();
     /**
      * The counter for collected bottles.
      * @type {number}
@@ -176,12 +177,14 @@ class World {
         this.throwableObject.forEach((throwableObject) => {
             this.level.enemies.forEach((enemy) => {
                 if (throwableObject.isColliding(enemy)) {
-                    enemy.dead_enemy = true;
+                    if (enemy instanceof Endboss && !throwableObject.wasHit) {
+                        this.endboss.hit();
+                        this.statusBarEndboss.setPercentage(this.endboss.energy);
+                    } else {
+                        enemy.dead_enemy = true;
+                        
+                    }
                     throwableObject.wasHit = true;
-                }
-                if (enemy instanceof Endboss) {
-                    enemy.hit();
-                    this.statusBarEndboss.setPercentage(20);
                 }
             });
         });

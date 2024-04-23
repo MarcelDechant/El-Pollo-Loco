@@ -48,6 +48,9 @@ class Endboss extends MovableObject {
      */
     dead_enemy = false;
 
+
+    seeEndboss = false;
+
     /**
      * The array of image paths for the walking animation.
      * @type {string[]}
@@ -128,7 +131,21 @@ class Endboss extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            if (this.seeEndboss){
+                this.playAnimation(this.IMAGES_ALERT);
+            }
+                if (this.isDead()) {
+                    this.playAnimation(this.IMAGES_DEAD);
+                }
+            // this.playAnimation(this.IMAGES_ALERT);
+            // this.playAnimation(this.IMAGES_WALKING);
+            // this.playAnimation(this.IMAGES_ATTACK);
+
+
+
+
+            // this.playAnimation(this.IMAGES_HURT);
+
         }, 150);
     }
 

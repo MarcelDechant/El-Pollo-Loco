@@ -296,4 +296,11 @@ class Character extends MovableObject {
             }
         }, stateInterval);
     }
+
+    checkEndbossEncounter() {
+        if (this.x > 720) {
+            this.seeEndboss = true;
+        }
+    }
+
 }

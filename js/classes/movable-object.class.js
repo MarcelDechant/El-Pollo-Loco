@@ -102,7 +102,7 @@ class MovableObject extends DrawableObject {
      * Reduces the object's energy and updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 5;
+        this.energy -= 20;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -144,6 +144,7 @@ class MovableObject extends DrawableObject {
      */
     moveRight() {
         this.x += this.speed;
+        this.checkEndbossEncounter();
     }
 
     /**
