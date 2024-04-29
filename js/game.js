@@ -23,6 +23,7 @@ function init() {
     canvas = document.getElementById('canvas');
     checkMobileDevice();
     initStartScreen();
+    toggleSound();
     // console.log('My Character is', world.character);
 }
 
@@ -74,6 +75,68 @@ function handleKeyUp(event) {
         keyboard.SPACE = false;
     }
 }
+
+function handleButtonClick(action) {
+    switch (action) {
+        case "left":
+            keyboard.LEFT = true;
+            break;
+        case "right":
+            keyboard.RIGHT = true;
+            break;
+        case "jump":
+            keyboard.UP = true;
+            break;
+        case "shoot":
+            keyboard.SPACE = true;
+            break;
+        default:
+            break;
+    }
+}
+/**
+ * Add event listener to each mobile control button
+ */
+const controlButtons = document.querySelectorAll('.mobile-control-btn');
+controlButtons.forEach(button => {
+    let action = button.textContent.toLowerCase();
+    // Funktion zur Behandlung der Aktionen bei Drücken des Buttons
+    function handleButtonPress() {
+        handleButtonClick(action);
+        button.classList.add('active');
+    }
+    function handleButtonRelease() {
+        switch (action) {
+            case "left":
+                keyboard.LEFT = false;
+                break;
+            case "right":
+                keyboard.RIGHT = false;
+                break;
+            case "jump":
+                keyboard.UP = false;
+                break;
+            case "shoot":
+                keyboard.SPACE = false;
+                break;
+            default:
+                break;
+        }
+        button.classList.remove('active');
+    }
+    button.addEventListener('mousedown', handleButtonPress);
+    button.addEventListener('mouseup', handleButtonRelease);
+    button.addEventListener('touchstart', function (event) {
+        if (event.cancelable) event.preventDefault();
+        handleButtonPress();
+    });
+    button.addEventListener('touchend', function () {
+        handleButtonRelease();
+    });
+    button.addEventListener('touchcancel', function () {
+        handleButtonRelease();
+    });
+});
 
 /**
  * Fügt eine ID zu den Intervallen hinzu.

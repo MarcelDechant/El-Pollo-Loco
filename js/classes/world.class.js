@@ -81,17 +81,6 @@ class World {
      */
     throwableObject = [];
 
-    /**
-     * Audio for collecting coins.
-     * @type {HTMLAudioElement}
-     */
-    collect_coin_sound = new Audio('audio/coin.mp3');
-
-    /**
-     * Audio for collecting bottles.
-     * @type {HTMLAudioElement}
-     */
-    collect_bottle_sound = new Audio('audio/bottlePickup.mp3');
 
     /**
      * Creates an instance of World.
@@ -199,8 +188,8 @@ class World {
         this.level.bottles.splice(index, 1);
         this.bottle_counter++;
         this.statusBarBottle.setPercentage(this.bottle_counter);
-        this.collect_bottle_sound.play();
-        this.collect_bottle_sound.volume = 0.03;
+        bottlePickup_audio.play();
+        bottlePickup_audio.volume = 0.03;
     }
 
     /**
@@ -211,8 +200,8 @@ class World {
         this.level.coins.splice(index, 1);
         this.coin_counter++;
         this.statusBarCoins.setPercentage(this.coin_counter);
-        this.collect_coin_sound.play();
-        this.collect_coin_sound.volume = 0.2;
+        coin_audio.play();
+        coin_audio.volume = 0.2;
     }
 
     checkSeeBoss() {

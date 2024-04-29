@@ -45,11 +45,6 @@ class MovableObject extends DrawableObject {
         bottom: 0
     };
 
-    /**
-     * The sound played when the object jumps.
-     * @type {Audio}
-     */
-    jump_sound = new Audio('audio/jump.mp3');
 
     /**
      * Applies gravity to the object, making it fall if not on the ground.
@@ -159,7 +154,6 @@ class MovableObject extends DrawableObject {
      */
     jump() {
         this.speedY = 15;
-        this.jump_sound.play();
-        this.jump_sound.volume = 0.05;
+        
     }
 }

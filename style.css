@@ -25,6 +25,7 @@ body {
     font-family: 'zabars', Arial, Helvetica, sans-serif;
     overflow: hidden;
     user-select: none;
+    gap: 10px;
 }
 
 h1 {
@@ -151,7 +152,7 @@ main {
 }
 
 .sound-toggle-btn {
-    background-image: url(./img/otherimgs/icons/sound_on_64.png);
+    background-image: url(./img/otherimgs/icons/sound_off_64.png);
 }
 
 .info-btn {
@@ -173,5 +174,11 @@ main {
 @media only screen and (max-width: 480px) {
     canvas {
         height: 100vh;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    h1 {
+        display: none;
     }
 }
