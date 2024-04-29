@@ -67,11 +67,6 @@ class Chicken extends MovableObject {
      */
     IMAGE_DEAD = ['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
 
-    /**
-     * Audio object for walking sound.
-     * @type {Audio}
-     */
-    walking_sound = new Audio('audio/chicken.wav');
 
     /**
      * Creates an instance of Chicken.
@@ -95,7 +90,7 @@ class Chicken extends MovableObject {
 
         setInterval(() => {
             if (!this.dead_enemy) {
-                this.walking_sound.volume = 0.03; // Set walking sound volume
+                
                 this.playAnimation(this.IMAGES_WALKING); // Play walking animation
             }
             if (this.dead_enemy) {

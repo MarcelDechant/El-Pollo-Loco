@@ -234,9 +234,6 @@ class Character extends MovableObject {
         const stateInterval = 120;
 
         setInterval(() => {
-            this.snore_sound.pause();
-            this.walking_sound.pause();
-            this.walking_sound.volume = 0.05; //lautstäcke des sounds einstellen (1 = volle Lautstärke 0 ist ton aus)
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
@@ -253,11 +250,11 @@ class Character extends MovableObject {
                 this.jump();
             }
             if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
-                this.walking_sound.play();
+                
             }
             if (this.timeSinceLastMovement >= 5) {
-                // this.snore_sound.play();
-                this.snore_sound.volume = 0.2;
+                
+                
             }
 
             this.world.camera_x = -this.x + 100;
@@ -297,10 +294,5 @@ class Character extends MovableObject {
         }, stateInterval);
     }
 
-    checkEndbossEncounter() {
-        if (this.x > 720) {
-            this.seeEndboss = true;
-        }
-    }
 
 }

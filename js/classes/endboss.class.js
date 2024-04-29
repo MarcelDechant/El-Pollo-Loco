@@ -41,15 +41,7 @@ class Endboss extends MovableObject {
      * @type {number}
      */
     energy = 100;
-
-    /**
-     * Indicates whether the end boss is dead.
-     * @type {boolean}
-     */
-    dead_enemy = false;
-
-
-    seeEndboss = false;
+ 
 
     /**
      * The array of image paths for the walking animation.
@@ -112,6 +104,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    world;
     /**
      * Constructs a new Endboss object.
      */
@@ -131,49 +124,52 @@ class Endboss extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            if (this.seeEndboss){
-                this.playAnimation(this.IMAGES_ALERT);
+            if (this.energy === 0) {
+                console.log('Endboss is dead');
+                this.playAnimation(this.IMAGES_DEAD);
+            } else if (this.isHurt()) {
+                console.log('Endboss is hurt');
+                this.playAnimation(this.IMAGES_HURT);
+            } else {
+                this.isMove();
             }
-                if (this.isDead()) {
-                    this.playAnimation(this.IMAGES_DEAD);
-                }
-            // this.playAnimation(this.IMAGES_ALERT);
-            // this.playAnimation(this.IMAGES_WALKING);
-            // this.playAnimation(this.IMAGES_ATTACK);
-
-
-
-
-            // this.playAnimation(this.IMAGES_HURT);
-
-        }, 150);
+        }, 160);
+        setInterval(() => {
+            this.isAttacking();
+        }, 100);
     }
 
-    /**
-     * Initiates the alert animation for the end boss.
-     */
-    playEndbossAlert() {
-        this.playAnimation(this.IMAGES_ALERT);
+
+   
+
+    isAttacking() {
+        if (world.checkSeeBoss() < 300) {
+            this.playAnimation(this.IMAGES_ATTACK);
+            this.speed = 25;
+            this.offset = {
+                right: 45,
+                left: -100,
+                bottom: 90,
+                top: 80
+            };
+        } else {
+            this.speed = 8;
+            this.offset = {
+                right: 45,
+                left: 70,
+                bottom: 90,
+                top: 80
+            };
+        }
+    }
+    isMove() {
+        if (world.checkSeeBoss() <= 850) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.x -= this.speed;
+        } else if (world.checkSeeBoss() < 550) {
+            this.playAnimation(this.IMAGES_ALERT);
+        }
     }
 
-    /**
-     * Initiates the aggressive animation for the end boss.
-     */
-    playEndbossAggressive() {
-        this.playAnimation(this.IMAGES_ATTACK);
-    }
 
-    /**
-     * Initiates the hurt animation for the end boss.
-     */
-    playEndbossHurt() {
-        this.playAnimation(this.IMAGES_HURT);
-    }
-
-    /**
-     * Initiates the dead animation for the end boss.
-     */
-    playEndbossDead() {
-        this.playAnimation(this.IMAGES_DEAD);
-    }
 }

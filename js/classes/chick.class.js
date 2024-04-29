@@ -71,7 +71,7 @@ class Chick extends MovableObject {
      * Audio object for walking sound.
      * @type {Audio}
      */
-    walking_sound = new Audio('audio/chicks.mp3');
+   
 
     /**
      * Creates an instance of Chick.
@@ -90,12 +90,11 @@ class Chick extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            // Animation logic
+            // this.moveLeft();  // Animation logic
         }, 1000 / 60);
 
         setInterval(() => {
             if (!this.dead_enemy) {
-                this.walking_sound.volume = 0.05; // Set walking sound volume
                 this.playAnimation(this.IMAGES_WALKING); // Play walking animation
             }
             if (this.dead_enemy) {

@@ -1,4 +1,6 @@
-const level1 = new Level(
+let level1
+function initLevel(){
+level1 = new Level(
     // Array of enemies
     [
         // new Chicken(),
@@ -61,3 +63,4 @@ const level1 = new Level(
         new Bottle()
     ],
 );
+}

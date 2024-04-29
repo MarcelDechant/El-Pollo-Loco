@@ -63,7 +63,6 @@ class World {
      */
     statusBarEndboss = new StatusBarEndboss();
 
-    endboss = new Endboss();
     /**
      * The counter for collected bottles.
      * @type {number}
@@ -120,10 +119,11 @@ class World {
      */
     run() {
         setInterval(() => {
-            this.checkCollisionsWithItems();
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollisionBottleWithEnemy();
+            this.checkCollisionsWithItems();
+            this.checkSeeBoss();
         }, 200);
     }
 
@@ -178,11 +178,12 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (throwableObject.isColliding(enemy)) {
                     if (enemy instanceof Endboss && !throwableObject.wasHit) {
-                        this.endboss.hit();
-                        this.statusBarEndboss.setPercentage(this.endboss.energy);
+                        enemy.hit();
+                        this.statusBarEndboss.setPercentage(enemy.energy);
+                        enemy.x += 50;
                     } else {
                         enemy.dead_enemy = true;
-                        
+
                     }
                     throwableObject.wasHit = true;
                 }
@@ -214,6 +215,16 @@ class World {
         this.collect_coin_sound.volume = 0.2;
     }
 
+    checkSeeBoss() {
+        let seeBoss = Math.abs(this.character.x - this.level.enemies[1].x);
+        if (seeBoss < 550) {
+            this.addToMap(this.statusBarEndboss);
+            console.log('see endboss')
+        }
+        return seeBoss;
+    }
+
+
     /**
      * Renders the game world.
      */
@@ -222,17 +233,16 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         //------- Space for fixed Objects --------
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottle);
-        this.addToMap(this.statusBarEndboss);
+        this.checkSeeBoss();
         //----------------------------------------
         this.ctx.translate(this.camera_x, 0);
-
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObject)
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
@@ -291,4 +301,7 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
+    
+
 }
