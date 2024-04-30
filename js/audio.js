@@ -61,6 +61,7 @@ function soundEffectsOff() {
 }
 function playBackgroundMusic() {
     background_audio.play();
+    background_audio.volume = 0.03;
     background_audio.loop = true;
 }
 

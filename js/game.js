@@ -2,7 +2,7 @@
 /** @type {HTMLCanvasElement} */
 let canvas;
 
-/** @type {World} */
+/** @type {world} */
 let world;
 
 /** @type {Keyboard} */
@@ -138,20 +138,9 @@ controlButtons.forEach(button => {
     });
 });
 
-/**
- * Fügt eine ID zu den Intervallen hinzu.
- * @param {number} interval - Die ID des Intervalls.
- */
-function pushInterval(interval) {
-    intervalIds.push(interval);
-}
 
-/**
- * Stoppt alle Intervalle.
- */
-function stopAllIntervals() {
-    intervalIds.forEach(id => clearInterval(id));
-}
+
+
 /**
  * Enters fullscreen mode for the document element.
  */

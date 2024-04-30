@@ -35,11 +35,6 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    /**
-     * Audio object for the sound of breaking bottle.
-     * @type {HTMLAudioElement}
-     */
-    break_bottle_sound = new Audio('audio/glassbroken.mp3');
 
     /**
      * Creates an instance of ThrowableObject.
@@ -67,8 +62,8 @@ class ThrowableObject extends MovableObject {
             } else {
                 this.playAnimation(this.THROW_BOTTLE_SPLASH);
                 if (!this.breakSoundPlayed) {
-                    this.break_bottle_sound.play();
-                    this.break_bottle_sound.volume = 0.03;
+                    bottleBrock_audio.play();
+                    bottleBrock_audio.volume = 0.03;
                     this.breakSoundPlayed = true;
                 }
                 setTimeout(() => {
