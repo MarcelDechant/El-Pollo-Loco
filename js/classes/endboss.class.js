@@ -21,27 +21,14 @@ class Endboss extends MovableObject {
      */
     width = 250;
 
-    /**
-     * The offset values for collision detection.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
-    offset = {
-        top: 65,
-        bottom: 50,
-        left: 30,
-        right: 30
-    };
+    
 
     /**
      * The energy level of the end boss.
      * @type {number}
      */
     energy = 100;
- 
+
 
     /**
      * The array of image paths for the walking animation.
@@ -136,40 +123,43 @@ class Endboss extends MovableObject {
         }, 160);
         setInterval(() => {
             this.isAttacking();
-        }, 100);
+        }, 160);
     }
 
 
-   
+
 
     isAttacking() {
         if (world.checkSeeBoss() < 300) {
+            
             this.playAnimation(this.IMAGES_ATTACK);
             this.speed = 25;
             this.offset = {
                 right: 45,
-                left: -100,
+                left: -30,
                 bottom: 90,
                 top: 80
             };
         } else {
             this.speed = 8;
             this.offset = {
-                right: 45,
-                left: 70,
-                bottom: 90,
-                top: 80
+                top: 65,
+                bottom: 50,
+                left: 30,
+                right: 30
             };
         }
     }
+
     isMove() {
-        if (world.checkSeeBoss() <= 850) {
-            this.playAnimation(this.IMAGES_WALKING);
-            this.x -= this.speed;
-        } else if (world.checkSeeBoss() < 550) {
-            this.playAnimation(this.IMAGES_ALERT);
-        }
+    
+     if (world.checkSeeBoss() < 400) {
+        this.playAnimation(this.IMAGES_ALERT);
+
+     }else if (world.checkSeeBoss() <= 850) {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.x -= this.speed;
+        
+     }
     }
-
-
 }

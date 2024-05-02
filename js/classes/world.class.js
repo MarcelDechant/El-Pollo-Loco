@@ -120,9 +120,11 @@ class World {
      * Checks for throw actions and creates throwable objects.
      */
     checkThrowObjects() {
-        if (this.keyboard.SPACE) {
+        if (this.keyboard.SPACE && this.bottle_counter > 0) {
             let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 80);
             this.throwableObject.push(bottle);
+            this.bottle_counter--
+            this.statusBarBottle.setPercentage(this.bottle_counter);
         }
     }
 
@@ -291,6 +293,6 @@ class World {
         this.ctx.restore();
     }
 
-    
+
 
 }
