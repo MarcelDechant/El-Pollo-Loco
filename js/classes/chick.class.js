@@ -80,7 +80,7 @@ class Chick extends MovableObject {
         super(); // Call the superclass constructor
         this.loadImage(this.IMAGES_WALKING[0]); // Load initial image
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 200 + Math.random() * 1200; // Randomize initial x position
+        this.x = 200 + Math.random() * 1500; // Randomize initial x position
         this.speed = 0.1 + Math.random() * 0.5; // Randomize speed
         this.animate(); // Start animation
     }

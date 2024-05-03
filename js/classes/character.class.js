@@ -74,24 +74,6 @@ class Character extends MovableObject {
     lastMovement = new Date().getTime();
 
     /**
-     * Audio object for walking sound.
-     * @type {Audio}
-     */
-    walking_sound = new Audio('audio/walking.mp3');
-
-    /**
-     * Audio object for hurt sound.
-     * @type {Audio}
-     */
-    getHurt_sound = new Audio('audio/hurt.mp3');
-
-    /**
-     * Audio object for snoring sound.
-     * @type {Audio}
-     */
-    snore_sound = new Audio('audio/snoring.mp3');
-
-    /**
     * Array of image paths for idle animation.
     * @type {string[]}
     * @description This array contains the image paths for the character's idle animation.
@@ -213,25 +195,31 @@ class Character extends MovableObject {
     * @this {Character}
     */
     animate() {
-        /**
-         * Timestamp of the last movement.
-         * @type {number}
-         */
         this.lastMovement = new Date().getTime();
 
-        /**
-         * Interval for movement animation.
-         * @constant
-         * @type {number}
-         */
-        const movementInterval = 1000 / 60;
+        // Intervall für Bewegungsanimation
+        const movementInterval = 10; // langsamer als zuvor
 
-        /**
-         * Interval for state animation.
-         * @constant
-         * @type {number}
-         */
-        const stateInterval = 120;
+        // Intervall für Zustandsanimation
+        const stateInterval = 120; // langsamer als zuvor
+
+        // Intervall für "Idle"-Animation
+        const idleInterval = 200; // Hier kannst du die Geschwindigkeit anpassen
+
+        // Intervall für "Long Idle"-Animation
+        const longIdleInterval = 400; // Hier kannst du die Geschwindigkeit anpassen
+
+        // Intervall für "Walking"-Animation
+        const walkingInterval = 0; // Hier kannst du die Geschwindigkeit anpassen
+
+        // Intervall für "Jumping"-Animation
+        const jumpingInterval = 1000; // Hier kannst du die Geschwindigkeit anpassen
+
+        // Intervall für "Hurt"-Animation
+        const hurtInterval = 200; // Hier kannst du die Geschwindigkeit anpassen
+
+        // Intervall für "Dead"-Animation
+        const deadInterval = 250; // Hier kannst du die Geschwindigkeit anpassen
 
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -249,50 +237,34 @@ class Character extends MovableObject {
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
             }
-            if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround()) {
-                
-            }
-            if (this.timeSinceLastMovement >= 5) {
-                
-                
-            }
-
+            
             this.world.camera_x = -this.x + 100;
 
         }, movementInterval);
 
         setInterval(() => {
-            /**
-             * Current time.
-             * @type {number}
-             */
             this.currentTime = new Date().getTime();
-            /**
-             * Time since last movement.
-             * @type {number}
-             */
             this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
             if (this.timeSinceLastMovement >= 2) {
-                this.playAnimation(this.IMAGES_IDLE);
+                this.playAnimation(this.IMAGES_IDLE, idleInterval);
             }
             if (this.timeSinceLastMovement >= 5) {
-                this.playAnimation(this.IMAGES_LONG_IDLE);
+                this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
             }
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                this.playAnimation(this.IMAGES_DEAD, deadInterval);
+                gameOver();
             } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
+                this.playAnimation(this.IMAGES_HURT, hurtInterval);
             } else if (this.isAboveGround()) {
-                //jump Animation
-                this.playAnimation(this.IMAGES_JUMPING);
+                this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    //Walk Animation
-                    this.playAnimation(this.IMAGES_WALKING);
+                    this.playAnimation(this.IMAGES_WALKING, walkingInterval);
                 }
             }
         }, stateInterval);
     }
 
-
+    
 }

@@ -207,14 +207,17 @@ class World {
     }
 
     checkSeeBoss() {
-        let seeBoss = Math.abs(this.character.x - this.level.enemies[1].x);
-        if (seeBoss < 550) {
-            this.addToMap(this.statusBarEndboss);
-            console.log('see endboss')
+        for (let enemy of this.level.enemies) {
+            if (enemy.name === 'Endboss') { 
+                let seeBoss = Math.abs(this.character.x - enemy.x);
+                if (seeBoss < 550) {
+                    this.addToMap(this.statusBarEndboss);
+                    console.log('see endboss')
+                }
+                return seeBoss;
+            }
         }
-        return seeBoss;
     }
-
 
     /**
      * Renders the game world.
@@ -230,7 +233,9 @@ class World {
         //------- Space for fixed Objects --------
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
+        this.drawCoinCounter(this.ctx);
         this.addToMap(this.statusBarBottle);
+        this.drawBottleCounter(this.ctx);
         this.checkSeeBoss();
         //----------------------------------------
         this.ctx.translate(this.camera_x, 0);
@@ -293,6 +298,24 @@ class World {
         this.ctx.restore();
     }
 
+    /**
+         * Draws the length of the bottle_counter array on the canvas.
+         * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+         */
+    drawBottleCounter(ctx) {
+        ctx.fillStyle = 'black';
+        ctx.font = '20px zabars';
+        ctx.fillText(` ${this.bottle_counter}`, 160, 99);
+    }
 
+    /**
+            * Draws the length of the bottle_counter array on the canvas.
+            * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+            */
+    drawCoinCounter(ctx) {
+        ctx.fillStyle = 'black';
+        ctx.font = '20px zabars';
+        ctx.fillText(` ${this.coin_counter}`, 160, 65);
+    }
 
 }

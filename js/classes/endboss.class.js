@@ -21,7 +21,7 @@ class Endboss extends MovableObject {
      */
     width = 250;
 
-    
+    name = "Endboss";
 
     /**
      * The energy level of the end boss.
@@ -91,7 +91,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    world;
+
     /**
      * Constructs a new Endboss object.
      */
@@ -102,7 +102,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 700 * 2;
+        this.x = 700 * 3;
         this.animate();
     }
 
@@ -114,6 +114,7 @@ class Endboss extends MovableObject {
             if (this.energy === 0) {
                 console.log('Endboss is dead');
                 this.playAnimation(this.IMAGES_DEAD);
+                gameVictory();
             } else if (this.isHurt()) {
                 console.log('Endboss is hurt');
                 this.playAnimation(this.IMAGES_HURT);
@@ -131,7 +132,7 @@ class Endboss extends MovableObject {
 
     isAttacking() {
         if (world.checkSeeBoss() < 300) {
-            
+
             this.playAnimation(this.IMAGES_ATTACK);
             this.speed = 25;
             this.offset = {
@@ -152,14 +153,14 @@ class Endboss extends MovableObject {
     }
 
     isMove() {
-    
-     if (world.checkSeeBoss() < 400) {
-        this.playAnimation(this.IMAGES_ALERT);
 
-     }else if (world.checkSeeBoss() <= 850) {
-        this.playAnimation(this.IMAGES_WALKING);
-        this.x -= this.speed;
-        
-     }
+        if (world.checkSeeBoss() < 400) {
+            this.playAnimation(this.IMAGES_ALERT);
+
+        } else if (world.checkSeeBoss() <= 850) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.x -= this.speed;
+
+        }
     }
 }
