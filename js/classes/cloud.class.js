@@ -8,7 +8,7 @@ class Cloud extends MovableObject {
      * The y-coordinate of the cloud's position.
      * @type {number}
      */
-    y = 20;
+    y = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
 
     /**
      * The width of the cloud object.
@@ -28,7 +28,8 @@ class Cloud extends MovableObject {
     constructor() {
         super(); // Call the superclass constructor
         this.loadImage('img/5_background/layers/4_clouds/1.png'); // Load image
-        this.x = Math.random() * (600 + 300) - 300; // Randomize initial x position
+        this.x = Math.random() * (2100 + 300) - 300; // Randomize initial x position
+        this.speed = 0.01 + Math.random() * 0.1;
         this.animate(); // Start animation
     }
 

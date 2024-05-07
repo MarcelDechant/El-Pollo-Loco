@@ -216,10 +216,10 @@ class Character extends MovableObject {
         const jumpingInterval = 1000; // Hier kannst du die Geschwindigkeit anpassen
 
         // Intervall für "Hurt"-Animation
-        const hurtInterval = 200; // Hier kannst du die Geschwindigkeit anpassen
+        const hurtInterval = 400; // Hier kannst du die Geschwindigkeit anpassen
 
         // Intervall für "Dead"-Animation
-        const deadInterval = 250; // Hier kannst du die Geschwindigkeit anpassen
+        const deadInterval = 1000; // Hier kannst du die Geschwindigkeit anpassen
 
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -237,12 +237,13 @@ class Character extends MovableObject {
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
             }
-            
+
             this.world.camera_x = -this.x + 100;
 
         }, movementInterval);
 
         setInterval(() => {
+
             this.currentTime = new Date().getTime();
             this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
             if (this.timeSinceLastMovement >= 2) {
@@ -250,13 +251,18 @@ class Character extends MovableObject {
             }
             if (this.timeSinceLastMovement >= 5) {
                 this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
+                snoring_audio.play()
+                snoring_audio.volume = 0.2;
             }
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD, deadInterval);
-                gameOver();
+                setTimeout(gameOver, 1000);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT, hurtInterval);
+                hurt_audio.play()
+                hurt_audio.volume = 0.2;
             } else if (this.isAboveGround()) {
+                this.currentImage = 0;
                 this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -266,5 +272,5 @@ class Character extends MovableObject {
         }, stateInterval);
     }
 
-    
+
 }

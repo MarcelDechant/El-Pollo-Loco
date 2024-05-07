@@ -90,12 +90,14 @@ class Chicken extends MovableObject {
 
         setInterval(() => {
             if (!this.dead_enemy) {
-                
                 this.playAnimation(this.IMAGES_WALKING); // Play walking animation
+                chickenWalk_audio.play();
+                chickenWalk_audio.volume = 0.2;
             }
             if (this.dead_enemy) {
                 this.loadImage(this.IMAGE_DEAD); // Load dead image
                 this.y += this.speedY; // Move chicken vertically
+                chickenWalk_audio.pause();
             }
         }, 150);
     }

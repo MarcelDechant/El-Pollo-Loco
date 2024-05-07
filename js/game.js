@@ -207,6 +207,7 @@ function isLandscapeOrientation() {
  */
 function startingGame() {
     restartBtn.style.backgroundImage = 'url(./img/otherimgs/icons/restart.png)';
+    let controlsElement = document.getElementById('mobile-controls');
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     let gameOverElement = document.getElementById('game-over');
@@ -218,20 +219,25 @@ function startingGame() {
         canvasElement.classList.remove('d-none');
         gameOverElement.classList.add('d-none');
         startElement.classList.add('d-none');
+        controlsElement.classList.remove('d-none');
     }, 200);
 }
 
 function initStartScreen() {
+    let controlsElement = document.getElementById('mobile-controls');
     let canvasElement = document.querySelector('canvas');
     let startElement = document.getElementById('game-start');
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
+    controlsElement.classList.remove('d-none');
 }
 
 function backStartScreen() {
+    let controlsElement = document.getElementById('mobile-controls');
     initStartScreen();
     startScreenBtn.classList.add('d-none');
     restartBtn.style.backgroundImage = 'url(./img/otherimgs/icons/play_64.png)';
+    controlsElement.classList.remove('d-none');
     gameOverElement.classList.add('d-none');
     victoryElement.classList.add('d-none');
     clearAllIntervals();
@@ -247,6 +253,9 @@ function gameOver() {
     canvasElement.classList.add('d-none');
     controlsElement.classList.add('d-none');
     gameOverElement.classList.remove('d-none');
+    lose_audio.volume = 0.2;
+    lose_audio.play();
+    
     clearAllIntervals();
 }
 
@@ -257,6 +266,9 @@ function gameVictory() {
     canvasElement.classList.add('d-none');
     controlsElement.classList.add('d-none');
     victoryElement.classList.remove('d-none');
+    win_audio.volume = 0.2;
+    win_audio.play();
+    
     clearAllIntervals();
 }
 
@@ -274,3 +286,12 @@ buttons.forEach(function (button) {
         this.blur();
     });
 });
+
+function openInfo() {
+    let openInfo = document.getElementById('infobox')
+    openInfo.classList.remove('d-none');
+}
+function closeInfo() {
+    let closeInfo = document.getElementById('infobox')
+    closeInfo.classList.add('d-none');
+}

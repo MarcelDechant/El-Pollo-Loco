@@ -81,6 +81,9 @@ class World {
      */
     throwableObject = [];
 
+    throwbottle = false;
+
+    immune = false;
 
     /**
      * Creates an instance of World.
@@ -113,19 +116,26 @@ class World {
             this.checkCollisionBottleWithEnemy();
             this.checkCollisionsWithItems();
             this.checkSeeBoss();
-        }, 200);
+        }, 1000 / 60);
     }
 
     /**
      * Checks for throw actions and creates throwable objects.
      */
     checkThrowObjects() {
-        if (this.keyboard.SPACE && this.bottle_counter > 0) {
+        if (this.keyboard.SPACE && this.bottle_counter > 0 && !this.throwbottle) {
+            this.throwbottle = true;
             let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 80);
             this.throwableObject.push(bottle);
             this.bottle_counter--
             this.statusBarBottle.setPercentage(this.bottle_counter);
+            setTimeout(() => {
+                this.throwbottle = false;
+
+
+            }, 1000);
         }
+
     }
 
     /**
@@ -137,11 +147,20 @@ class World {
                 if (this.character.isAboveGround()) {
                     enemy.dead_enemy = true;
                     this.character.jump();
-                } else
+                } else if (!this.immune) {
                     this.character.hit();
-                this.statusBarLife.setPercentage(this.character.energy);
+                    this.statusBarLife.setPercentage(this.character.energy);
+                    this.makeImmune();
+                }
             }
         });
+    }
+
+    makeImmune() {
+        this.immune = true;
+        this.immuneTimer = setTimeout(() => {
+            this.immune = false;
+        }, 300);
     }
 
     /**
@@ -208,11 +227,10 @@ class World {
 
     checkSeeBoss() {
         for (let enemy of this.level.enemies) {
-            if (enemy.name === 'Endboss') { 
+            if (enemy.name === 'Endboss') {
                 let seeBoss = Math.abs(this.character.x - enemy.x);
                 if (seeBoss < 550) {
                     this.addToMap(this.statusBarEndboss);
-                    console.log('see endboss')
                 }
                 return seeBoss;
             }

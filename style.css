@@ -57,6 +57,7 @@ main {
     max-width: 720px;
     max-height: 480px;
     margin: 0 12px;
+    justify-content: center;
 }
 
 .top-bar {
@@ -163,22 +164,53 @@ main {
     width: 100px;
 }
 
-/*Smartphones ------------*/
-@media only screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
+.infobox {
+    width: 43%;
+    height: 100%;
+    background-size: cover;
+    background-image: url(./img/otherimgs/info2.png);
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 25px;
+}
+
+.closeInfo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 40px;
+
 }
 
 /*Smartphones ------------*/
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 950px) {
+    canvas {
+        width: 100%;
+    }
+
+}
+
+/*Smartphones ------------*/
+@media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
     }
 }
 
-@media screen and (orientation:landscape) {
+@media screen and (max-device-width: 950px) and  (orientation:landscape) {
     h1 {
         display: none;
     }
+}
+@media(max-width: 535px) {
+    .infobox {
+        font-size: 20px;
+        gap: 10px;
+    }
+    
 }

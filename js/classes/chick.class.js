@@ -90,16 +90,20 @@ class Chick extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            // this.moveLeft();  // Animation logic
+            this.moveLeft();  // Animation logic
+           
         }, 1000 / 60);
 
         setInterval(() => {
             if (!this.dead_enemy) {
                 this.playAnimation(this.IMAGES_WALKING); // Play walking animation
+                chicksWalk_audio.play();
+                chicksWalk_audio.volume = 0.2;
             }
             if (this.dead_enemy) {
                 this.loadImage(this.IMAGE_DEAD); // Load dead image
                 this.y += this.speedY; // Move chick vertically
+                chicksWalk_audio.pause();
             }
         }, 150);
     }
