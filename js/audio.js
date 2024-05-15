@@ -11,6 +11,7 @@ let snoring_audio = new Audio('./audio/snoring.mp3');
 let bottleThrow_audio = new Audio('./audio/throw.mp3');
 let characterWalk_audio = new Audio('./audio/walking.mp3');
 let win_audio = new Audio('./audio/win.wav');
+let dead_Chicken = new Audio('audio/dead_chicken.mp3')
 
 let audioEffects = [
     background_audio,
@@ -26,6 +27,7 @@ let audioEffects = [
     bottleThrow_audio,
     characterWalk_audio,
     win_audio,
+    dead_Chicken,
 ];
 let isMuted = false;
 let BtnAudioToggle = document.getElementById('soundToggle');
@@ -46,7 +48,7 @@ function toggleSound() {
 }
 function soundEffectsOn() {
     BtnAudioToggle.style.backgroundImage = 'url(./img/otherimgs/icons/sound_on_64.png)';
-    for (let audio of  audioEffects) {
+    for (let audio of audioEffects) {
         audio.muted = false;
     }
     playBackgroundMusic();
@@ -55,14 +57,27 @@ function soundEffectsOn() {
 function soundEffectsOff() {
     volumeSlider.classList.add('d-none');
     BtnAudioToggle.style.backgroundImage = 'url(./img/otherimgs/icons/sound_off_64.png)';
-    for (let audio of  audioEffects) {
+    for (let audio of audioEffects) {
         audio.muted = true;
     }
 }
+numbersOfChicken = 0;
 function playBackgroundMusic() {
     background_audio.play();
     background_audio.volume = 0.03;
     background_audio.loop = true;
+    
+
+}
+
+function playChickenAudio(){
+    if (numbersOfChicken <= 0) {
+        chickenWalk_audio.pause();
+    } else if (numbersOfChicken > 0) {
+        chickenWalk_audio.play();
+        chickenWalk_audio.volume = 0.2;
+        chickenWalk_audio.loop = true;
+    }
 }
 
 function changeVolume(volume) {

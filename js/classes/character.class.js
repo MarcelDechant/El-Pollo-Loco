@@ -251,7 +251,7 @@ class Character extends MovableObject {
             }
             if (this.timeSinceLastMovement >= 5) {
                 this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
-                snoring_audio.play()
+                snoring_audio.play();
                 snoring_audio.volume = 0.2;
             }
             if (this.isDead()) {
@@ -259,10 +259,10 @@ class Character extends MovableObject {
                 setTimeout(gameOver, 1000);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT, hurtInterval);
-                hurt_audio.play()
+                hurt_audio.play();
                 hurt_audio.volume = 0.2;
             } else if (this.isAboveGround()) {
-                this.currentImage = 0;
+                
                 this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {

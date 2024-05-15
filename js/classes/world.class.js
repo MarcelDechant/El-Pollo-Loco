@@ -85,6 +85,9 @@ class World {
 
     immune = false;
 
+    
+    
+
     /**
      * Creates an instance of World.
      * @param {HTMLCanvasElement} canvas - The canvas element.
@@ -116,6 +119,9 @@ class World {
             this.checkCollisionBottleWithEnemy();
             this.checkCollisionsWithItems();
             this.checkSeeBoss();
+            this.checkChicken();
+            this.checkChick();
+            playChickenAudio();
         }, 1000 / 60);
     }
 
@@ -123,7 +129,7 @@ class World {
      * Checks for throw actions and creates throwable objects.
      */
     checkThrowObjects() {
-        if (this.keyboard.SPACE && this.bottle_counter > 0 && !this.throwbottle) {
+        if (this.keyboard.SPACE /** && this.bottle_counter > 0*/ && !this.throwbottle) {
             this.throwbottle = true;
             let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 80);
             this.throwableObject.push(bottle);
@@ -142,11 +148,16 @@ class World {
      * Checks for collisions between character and enemies.
      */
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
+        this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {
                     enemy.dead_enemy = true;
                     this.character.jump();
+                    dead_Chicken.play();
+                    setTimeout(() => {
+                        this.removeDeadChicken(index);
+                        this.removeDeadChick(index);
+                    }, 1000);
                 } else if (!this.immune) {
                     this.character.hit();
                     this.statusBarLife.setPercentage(this.character.energy);
@@ -193,9 +204,10 @@ class World {
                         enemy.x += 50;
                     } else {
                         enemy.dead_enemy = true;
-
+                        dead_Chicken.play();
                     }
                     throwableObject.wasHit = true;
+
                 }
             });
         });
@@ -246,6 +258,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObject)
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
         //------- Space for fixed Objects --------
@@ -257,7 +270,6 @@ class World {
         this.checkSeeBoss();
         //----------------------------------------
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.throwableObject)
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.ctx.translate(-this.camera_x, 0);
@@ -289,7 +301,7 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
@@ -335,5 +347,39 @@ class World {
         ctx.font = '20px zabars';
         ctx.fillText(` ${this.coin_counter}`, 160, 65);
     }
+
+    checkChicken() {
+        let numberOfChicken = world.level.enemies.filter(enemies => enemies.name === "Chicken").length;
+        // console.log(numberOfChicken)
+        numbersOfChicken = numberOfChicken;
+    }
+
+    checkChick() {
+        let numberOfChick = world.level.enemies.filter(enemies => enemies.name === "Chick").length;
+        // console.log(numberOfChick)
+        return numberOfChick
+    }
+
+    /**
+ * Removes a dead chicken from the level when its y-coordinate reaches 480.
+ * @param {number} index - The index of the dead chicken.
+ */
+    removeDeadChicken(index) {
+        const enemy = this.level.enemies[index];
+        if (enemy.y >= 400) {
+            this.level.enemies.splice(index, 1);
+            // Optional: Weitere Anpassungen oder Aktualisierungen hier
+        }
+    }
+
+    removeDeadChick(index) {
+        const enemy = this.level.enemies[index];
+        if (enemy.y >= 400) {
+            this.level.enemies.splice(index, 1);
+            // Optional: Weitere Anpassungen oder Aktualisierungen hier
+        }
+    }
+
+
 
 }

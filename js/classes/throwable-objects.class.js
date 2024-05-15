@@ -10,7 +10,7 @@ class ThrowableObject extends MovableObject {
      * @type {boolean}
      */
     wasHit = false;
-
+    ground = 370;
     /**
      * Array of image paths representing the throwable object when thrown.
      * @type {string[]}
@@ -45,7 +45,7 @@ class ThrowableObject extends MovableObject {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png ')
         this.loadImages(this.THROW_BOTTLE);
         this.loadImages(this.THROW_BOTTLE_SPLASH);
-        this.x = x;
+        this.x = x - 40;
         this.y = y;
         this.height = 60;
         this.width = 50;
@@ -57,9 +57,9 @@ class ThrowableObject extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            if (!this.wasHit) {
+            if (this.y < this.ground && !this.wasHit) {
                 this.playAnimation(this.THROW_BOTTLE);
-            } else {
+            } else if (this.y == this.ground || this.wasHit) {
                 this.playAnimation(this.THROW_BOTTLE_SPLASH);
                 if (!this.breakSoundPlayed) {
                     bottleBrock_audio.play();
@@ -69,21 +69,51 @@ class ThrowableObject extends MovableObject {
                 setTimeout(() => {
                     this.wasHit = false;
                     this.breakSoundPlayed = false;
-
-                }, this.THROW_BOTTLE_SPLASH.length * 5000);
+                }, this.THROW_BOTTLE_SPLASH.length * 500);
             }
-        }, 100 / 60);
+        }, 5000 / 60);
     }
 
     /**
      * Throws the throwable object.
      */
     throw() {
-        this.animate();
+        this.animate()
         this.speedY = 15;
         this.applayGravity();
-        setInterval(() => {
-            this.x += 6;
-        }, 25)
+        this.getMovementBottle();
+
+        const checkBottleStatus = setInterval(
+            () => this.getBottleStatus(checkBottleStatus),
+            1000 / 60
+        );
+    }
+
+    getMovementBottle() {
+        if (!world.character.otherDirection) {
+            let Bottle = setInterval(() => {
+                this.x += 6;
+                if (this.y == this.ground) {
+                    clearInterval(Bottle);
+                }
+            }, 25);
+        } else if (world.character.otherDirection) {
+            setInterval(() => {
+                this.x -= 6;
+                if (this.y == this.ground) {
+                    clearInterval(Bottle);
+                }
+            }, 25);
+        }
+    }
+
+    getBottleStatus(checkBottleStatus) {
+        if ((this.y == this.ground) || this.wasHit) {
+            this.currImg = 0;
+            clearInterval(checkBottleStatus);
+            if (this.speedY > 0) {
+                this.speedY = 0;
+            }
+        }
     }
 }

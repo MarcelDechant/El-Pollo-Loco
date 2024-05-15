@@ -83,30 +83,30 @@ class DrawableObject {
      * Draws a frame around the object, useful for debugging collision detection.
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
      */
-    drawFrame(ctx) {
-        if (
-            this instanceof Character ||
-            this instanceof Chicken ||
-            this instanceof Chick ||
-            this instanceof Endboss ||
-            this instanceof Coins ||
-            this instanceof Bottle ||
-            this instanceof ThrowableObject
-        ) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'red';
-            ctx.rect(
-                this.x + this.offset.left,
-                this.y + this.offset.top,
-                this.width - this.offset.left - this.offset.right,
-                this.height - this.offset.top - this.offset.bottom
-            );
-            ctx.stroke();
+    // drawFrame(ctx) {
+    //     if (
+    //         this instanceof Character ||
+    //         this instanceof Chicken ||
+    //         this instanceof Chick ||
+    //         this instanceof Endboss ||
+    //         this instanceof Coins ||
+    //         this instanceof Bottle ||
+    //         this instanceof ThrowableObject
+    //     ) {
+    //         ctx.beginPath();
+    //         ctx.strokeStyle = 'red';
+    //         ctx.rect(
+    //             this.x + this.offset.left,
+    //             this.y + this.offset.top,
+    //             this.width - this.offset.left - this.offset.right,
+    //             this.height - this.offset.top - this.offset.bottom
+    //         );
+    //         ctx.stroke();
 
-            // ctx.beginPath();
-            // ctx.strokeStyle = 'blue';
-            // ctx.rect(this.x, this.y, this.width, this.height);
-            // ctx.stroke();
-        }
-    }
+    //         ctx.beginPath();
+    //         ctx.strokeStyle = 'blue';
+    //         ctx.rect(this.x, this.y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
 }

@@ -91,6 +91,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    alertPlayed = false;
 
     /**
      * Constructs a new Endboss object.
@@ -112,11 +113,11 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.energy === 0) {
-                console.log('Endboss is dead');
+                // console.log('Endboss is dead');
                 this.playAnimation(this.IMAGES_DEAD);
-                gameVictory();
+                setTimeout(gameVictory, 1000);
             } else if (this.isHurt()) {
-                console.log('Endboss is hurt');
+                // console.log('Endboss is hurt');
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.isMove();
@@ -131,36 +132,34 @@ class Endboss extends MovableObject {
 
 
     isAttacking() {
-        if (world.checkSeeBoss() < 300) {
-
+        if (world.checkSeeBoss() < 300  && this.energy > 0) {
+            // console.log('attack')
             this.playAnimation(this.IMAGES_ATTACK);
             this.speed = 25;
-            this.offset = {
-                right: 45,
-                left: -30,
-                bottom: 90,
-                top: 80
-            };
-        } else {
-            this.speed = 8;
             this.offset = {
                 top: 65,
                 bottom: 50,
                 left: 30,
                 right: 30
             };
-        }
+        } 
     }
 
+    
+
     isMove() {
-
-        if (world.checkSeeBoss() < 400) {
+        const distanceToBoss = world.checkSeeBoss();
+        if (distanceToBoss < 400 && distanceToBoss > 300 && !this.alertPlayed) {
+            // console.log('alert');
             this.playAnimation(this.IMAGES_ALERT);
-
-        } else if (world.checkSeeBoss() <= 850) {
+            this.alertPlayed = true;
+        } else if (distanceToBoss <= 850) {
+            this.speed = 8;
+            // console.log('walk');
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
-
+            // Reset alertPlayed, so that the alert animation can be played again if the player enters the alert range again
+            this.alertPlayed = false;
         }
     }
 }

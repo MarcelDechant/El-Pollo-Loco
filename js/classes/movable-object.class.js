@@ -71,6 +71,7 @@ class MovableObject extends DrawableObject {
         } else {
             return this.y < 220;
         }
+
     }
 
     /**
@@ -139,7 +140,7 @@ class MovableObject extends DrawableObject {
      */
     moveRight() {
         this.x += this.speed;
-        
+
     }
 
     /**
