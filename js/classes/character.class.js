@@ -189,88 +189,106 @@ class Character extends MovableObject {
 
 
     /**
-    * Animates the character object based on its state and user input.
-    * @memberof Character
-    * @function animate
-    * @this {Character}
-    */
-    animate() {
-        this.lastMovement = new Date().getTime();
+ * Animates the character object based on its state and user input.
+ * @memberof Character
+ * @function animate
+ * @this {Character}
+ * @description This function handles the animation of the character based on its state and user input.
+ */
+animate() {
+    this.lastMovement = new Date().getTime();
 
-        // Intervall für Bewegungsanimation
-        const movementInterval = 10; // langsamer als zuvor
+    // Interval for movement animation
+    const movementInterval = 10; // Slower than before
 
-        // Intervall für Zustandsanimation
-        const stateInterval = 120; // langsamer als zuvor
+    // Interval for state animation
+    const stateInterval = 120; // Slower than before
 
-        // Intervall für "Idle"-Animation
-        const idleInterval = 200; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Idle" animation
+    const idleInterval = 200; // You can adjust the speed here
 
-        // Intervall für "Long Idle"-Animation
-        const longIdleInterval = 400; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Long Idle" animation
+    const longIdleInterval = 400; // You can adjust the speed here
 
-        // Intervall für "Walking"-Animation
-        const walkingInterval = 0; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Walking" animation
+    const walkingInterval = 0; // You can adjust the speed here
 
-        // Intervall für "Jumping"-Animation
-        const jumpingInterval = 1000; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Jumping" animation
+    const jumpingInterval = 1000; // You can adjust the speed here
 
-        // Intervall für "Hurt"-Animation
-        const hurtInterval = 400; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Hurt" animation
+    const hurtInterval = 400; // You can adjust the speed here
 
-        // Intervall für "Dead"-Animation
-        const deadInterval = 1000; // Hier kannst du die Geschwindigkeit anpassen
+    // Interval for "Dead" animation
+    const deadInterval = 1000; // You can adjust the speed here
 
-        setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.lastMovement = new Date().getTime();
+    setInterval(() => {
+        // Move the character right if the right arrow key is pressed
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.lastMovement = new Date().getTime();
+        }
+
+        // Move the character left if the left arrow key is pressed
+        if (this.world.keyboard.LEFT && this.x > -617) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.lastMovement = new Date().getTime();
+        }
+
+        // Make the character jump if the up arrow key is pressed and it's not already above ground
+        if (this.world.keyboard.UP && !this.isAboveGround()) {
+            this.jump();
+            this.lastMovement = new Date().getTime();
+        }
+
+        // Update the camera position based on the character's position
+        this.world.camera_x = -this.x + 100;
+    }, movementInterval);
+
+    setInterval(() => {
+        this.currentTime = new Date().getTime();
+        this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
+
+        // Play idle animation if there's no movement for a while
+        if (this.timeSinceLastMovement >= 2) {
+            this.playAnimation(this.IMAGES_IDLE, idleInterval);
+        }
+
+        // Play long idle animation if there's no movement for a longer time
+        if (this.timeSinceLastMovement >= 5) {
+            this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
+            snoring_audio.play();
+            snoring_audio.volume = 0.2;
+        }
+
+        // Play dead animation if the character is dead
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD, deadInterval);
+            setTimeout(gameOver, 1000);
+        } else if (this.isHurt()) {
+            // Play hurt animation if the character is hurt
+            this.playAnimation(this.IMAGES_HURT, hurtInterval);
+            hurt_audio.play();
+            hurt_audio.volume = 0.2;
+        } else if (this.isAboveGround()) {
+            // Play jumping animation if the character is in the air
+            this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
+            snoring_audio.pause();
+            characterWalk_audio.pause();
+        } else {
+            // Play walking animation if the character is on the ground and moving
+            characterWalk_audio.pause();
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING, walkingInterval);
+                snoring_audio.pause();
+                characterWalk_audio.play();
+                characterWalk_audio.volume = 0.1;
             }
-
-            if (this.world.keyboard.LEFT && this.x > -617) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.lastMovement = new Date().getTime();
-            }
-
-            if (this.world.keyboard.UP && !this.isAboveGround()) {
-                this.jump();
-            }
-
-            this.world.camera_x = -this.x + 100;
-
-        }, movementInterval);
-
-        setInterval(() => {
-
-            this.currentTime = new Date().getTime();
-            this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
-            if (this.timeSinceLastMovement >= 2) {
-                this.playAnimation(this.IMAGES_IDLE, idleInterval);
-            }
-            if (this.timeSinceLastMovement >= 5) {
-                this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
-                snoring_audio.play();
-                snoring_audio.volume = 0.2;
-            }
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD, deadInterval);
-                setTimeout(gameOver, 1000);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT, hurtInterval);
-                hurt_audio.play();
-                hurt_audio.volume = 0.2;
-            } else if (this.isAboveGround()) {
-                
-                this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING, walkingInterval);
-                }
-            }
-        }, stateInterval);
-    }
+        }
+    }, stateInterval);
+}
 
 
 }

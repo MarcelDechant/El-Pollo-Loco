@@ -81,12 +81,17 @@ class World {
      */
     throwableObject = [];
 
+    /**
+    * Indicates if the player is currently throwing a bottle.
+    * @type {boolean}
+    */
     throwbottle = false;
 
+    /**
+     * Indicates if the player is immune to enemy attacks.
+     * @type {boolean}
+     */
     immune = false;
-
-    
-    
 
     /**
      * Creates an instance of World.
@@ -122,6 +127,7 @@ class World {
             this.checkChicken();
             this.checkChick();
             playChickenAudio();
+            playChicksAudio();
         }, 1000 / 60);
     }
 
@@ -129,7 +135,7 @@ class World {
      * Checks for throw actions and creates throwable objects.
      */
     checkThrowObjects() {
-        if (this.keyboard.SPACE /** && this.bottle_counter > 0*/ && !this.throwbottle) {
+        if (this.keyboard.SPACE && this.bottle_counter > 0 && !this.throwbottle) {
             this.throwbottle = true;
             let bottle = new ThrowableObject(this.character.x + 60, this.character.y + 80);
             this.throwableObject.push(bottle);
@@ -154,6 +160,7 @@ class World {
                     enemy.dead_enemy = true;
                     this.character.jump();
                     dead_Chicken.play();
+                    dead_Chicken.volume = 0.2;
                     setTimeout(() => {
                         this.removeDeadChicken(index);
                         this.removeDeadChick(index);
@@ -167,6 +174,9 @@ class World {
         });
     }
 
+    /**
+     * Makes the character immune to enemy attacks for a short period.
+     */
     makeImmune() {
         this.immune = true;
         this.immuneTimer = setTimeout(() => {
@@ -196,7 +206,7 @@ class World {
      */
     checkCollisionBottleWithEnemy() {
         this.throwableObject.forEach((throwableObject) => {
-            this.level.enemies.forEach((enemy) => {
+            this.level.enemies.forEach((enemy, index) => {
                 if (throwableObject.isColliding(enemy)) {
                     if (enemy instanceof Endboss && !throwableObject.wasHit) {
                         enemy.hit();
@@ -205,6 +215,11 @@ class World {
                     } else {
                         enemy.dead_enemy = true;
                         dead_Chicken.play();
+                        dead_Chicken.volume = 0.2;
+                        setTimeout(() => {
+                            this.removeDeadChicken(index);
+                            this.removeDeadChick(index);
+                        }, 1000);
                     }
                     throwableObject.wasHit = true;
 
@@ -234,9 +249,13 @@ class World {
         this.coin_counter++;
         this.statusBarCoins.setPercentage(this.coin_counter);
         coin_audio.play();
-        coin_audio.volume = 0.2;
+        coin_audio.volume = 0.4;
+
     }
 
+    /**
+     * Checks if the end boss is within range of the character.
+     */
     checkSeeBoss() {
         for (let enemy of this.level.enemies) {
             if (enemy.name === 'Endboss') {
@@ -274,7 +293,6 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.ctx.translate(-this.camera_x, 0);
 
-        // Draw wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -329,9 +347,9 @@ class World {
     }
 
     /**
-         * Draws the length of the bottle_counter array on the canvas.
-         * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
-         */
+     * Draws the length of the bottle_counter array on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+     */
     drawBottleCounter(ctx) {
         ctx.fillStyle = 'black';
         ctx.font = '20px zabars';
@@ -339,44 +357,54 @@ class World {
     }
 
     /**
-            * Draws the length of the bottle_counter array on the canvas.
-            * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
-            */
+    * Draws the length of the bottle_counter array on the canvas.
+    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+     */
     drawCoinCounter(ctx) {
         ctx.fillStyle = 'black';
         ctx.font = '20px zabars';
         ctx.fillText(` ${this.coin_counter}`, 160, 65);
     }
 
+    /**
+     * Counts the number of chicken enemies in the level.
+     */
     checkChicken() {
         let numberOfChicken = world.level.enemies.filter(enemies => enemies.name === "Chicken").length;
         // console.log(numberOfChicken)
         numbersOfChicken = numberOfChicken;
     }
 
+    /**
+     * Counts the number of chick enemies in the level.
+     */
     checkChick() {
         let numberOfChick = world.level.enemies.filter(enemies => enemies.name === "Chick").length;
         // console.log(numberOfChick)
-        return numberOfChick
+        numbersOfChicks = numberOfChick
     }
 
     /**
- * Removes a dead chicken from the level when its y-coordinate reaches 480.
- * @param {number} index - The index of the dead chicken.
- */
+    * Removes a dead chicken from the level when its y-coordinate reaches 480.
+    * @param {number} index - The index of the dead chicken.
+    */
     removeDeadChicken(index) {
         const enemy = this.level.enemies[index];
         if (enemy.y >= 400) {
             this.level.enemies.splice(index, 1);
-            // Optional: Weitere Anpassungen oder Aktualisierungen hier
+
         }
     }
 
+    /**
+     * Removes a dead chick from the level when its y-coordinate reaches 480.
+     * @param {number} index - The index of the dead chick.
+     */
     removeDeadChick(index) {
         const enemy = this.level.enemies[index];
         if (enemy.y >= 400) {
             this.level.enemies.splice(index, 1);
-            // Optional: Weitere Anpassungen oder Aktualisierungen hier
+
         }
     }
 

@@ -23,9 +23,19 @@ class BackgroundObject extends MovableObject {
      * @param {number} y - The y-coordinate of the background's position.
      */
     constructor(imagePath, x, y) {
-        super(); // Call the superclass constructor
-        this.loadImage(imagePath); // Load the image
+        super(); 
+        this.loadImage(imagePath); 
+
+        /**
+         * The x-coordinate of the background object's position.
+         * @type {number}
+         */
         this.x = x;
+
+        /**
+         * The y-coordinate of the background object's position.
+         * @type {number}
+         */
         this.y = 480 - this.height;
     }
 }

@@ -10,7 +10,13 @@ class ThrowableObject extends MovableObject {
      * @type {boolean}
      */
     wasHit = false;
+
+    /**
+     * The ground level where the throwable object lands.
+     * @type {number}
+     */
     ground = 370;
+
     /**
      * Array of image paths representing the throwable object when thrown.
      * @type {string[]}
@@ -87,8 +93,13 @@ class ThrowableObject extends MovableObject {
             () => this.getBottleStatus(checkBottleStatus),
             1000 / 60
         );
+        bottleThrow_audio.play();
+        bottleThrow_audio.volume = 0.2;
     }
 
+    /**
+    * Controls the horizontal movement of the thrown bottle.
+    */
     getMovementBottle() {
         if (!world.character.otherDirection) {
             let Bottle = setInterval(() => {
@@ -107,6 +118,10 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * Checks the status of the thrown bottle.
+     * @param {number} checkBottleStatus - The interval ID for checking the bottle status.
+     */
     getBottleStatus(checkBottleStatus) {
         if ((this.y == this.ground) || this.wasHit) {
             this.currImg = 0;

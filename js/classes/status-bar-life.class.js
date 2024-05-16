@@ -67,4 +67,5 @@ class StatusBarLife extends DrawableObject {
             return 0;
         }
     }
+    
 }

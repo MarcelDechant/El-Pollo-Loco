@@ -16,6 +16,7 @@ class Cloud extends MovableObject {
      */
     width = 500;
 
+
     /**
      * The height of the cloud object.
      * @type {number}

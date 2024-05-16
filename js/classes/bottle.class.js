@@ -45,10 +45,21 @@ class Bottle extends MovableObject {
      */
     constructor() {
         super(); // Call the superclass constructor
+
+        /**
+         * The x-coordinate of the bottle object's position.
+         * @type {number}
+         */
+        this.x = 200 + Math.random() * 1200;
+
+        /**
+         * The y-coordinate of the bottle object's position.
+         * @type {number}
+         */
+        this.y = 150 + Math.random() * 200;
+
         this.loadImage('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'); // Load initial image
         this.loadImages(this.IMAGES_BOTTLE); // Load all images for animation
-        this.x = 200 + Math.random() * 1200;
-        this.y = 150 + Math.random() * 200;
         this.animate(); // Start animation
     }
 

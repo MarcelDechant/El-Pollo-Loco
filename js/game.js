@@ -1,21 +1,57 @@
 
-/** @type {HTMLCanvasElement} */
+/**
+ * Represents the canvas element.
+ * @type {HTMLCanvasElement}
+ */
 let canvas;
 
-/** @type {world} */
+/**
+ * Represents the game world.
+ * @type {World}
+ */
 let world;
 
-/** @type {Keyboard} */
+/**
+ * Represents the keyboard input.
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
 
-/** @type {number[]} */
+/**
+ * Array containing interval IDs.
+ * @type {number[]}
+ */
 let intervalIds = [];
 
+/**
+ * Represents the fullscreen mode status.
+ * @type {boolean}
+ */
 let isFullscreen = false;
+
+/**
+ * Represents the restart button element.
+ * @type {HTMLElement}
+ */
 let restartBtn = document.getElementById("startGame");
+
+/**
+ * Represents the start screen button element.
+ * @type {HTMLElement}
+ */
 let startScreenBtn = document.getElementById('startScreenBtn');
+
+/**
+ * Represents the game over element.
+ * @type {HTMLElement}
+ */
 let gameOverElement = document.getElementById('game-over');
+/**
+ * Represents the game victory element.
+ * @type {HTMLElement}
+ */
 let victoryElement = document.getElementById('game-victory');
+
 /**
  * Initialisiert das Spiel.
  */
@@ -24,7 +60,6 @@ function init() {
     checkMobileDevice();
     initStartScreen();
     toggleSound();
-    // console.log('My Character is', world.character);
 }
 
 window.addEventListener("keydown", handleKeyDown);
@@ -76,6 +111,10 @@ function handleKeyUp(event) {
     }
 }
 
+/**
+ * Handles the button click event.
+ * @param {string} action - The action associated with the button.
+ */
 function handleButtonClick(action) {
     switch (action) {
         case "left":
@@ -94,13 +133,13 @@ function handleButtonClick(action) {
             break;
     }
 }
+
 /**
  * Add event listener to each mobile control button
  */
 const controlButtons = document.querySelectorAll('.mobile-control-btn');
 controlButtons.forEach(button => {
     let action = button.textContent.toLowerCase();
-    // Funktion zur Behandlung der Aktionen bei Drücken des Buttons
     function handleButtonPress() {
         handleButtonClick(action);
         button.classList.add('active');
@@ -142,10 +181,7 @@ controlButtons.forEach(button => {
 
 
 /**
- * Enters fullscreen mode for the document element.
- */
-/**
- * Add event listener to the fullscreen button
+ * Handles the fullscreen button click event.
  */
 fullscreenButton.addEventListener('click', function () {
     if (!isFullscreen) {
@@ -157,7 +193,9 @@ fullscreenButton.addEventListener('click', function () {
     }
 });
 
-
+/**
+ * Enters fullscreen mode.
+ */
 function enterFullscreen() {
     let element = document.documentElement;
     let requestFullScreen = element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullScreen || element.msRequestFullscreen;
@@ -185,7 +223,10 @@ function isMobileDevice() {
     return mobileAgents.some(agent => navigator.userAgent.includes(agent));
 }
 
-
+/**
+ * Checks if the user agent is a mobile device.
+ * @returns {boolean} True if the user agent is a mobile device, otherwise false.
+ */
 function checkMobileDevice() {
     if (isMobileDevice() && !isLandscapeOrientation()) {
         // alert zum schönen dialog bauen!!
@@ -193,17 +234,16 @@ function checkMobileDevice() {
     }
 }
 
-
 /**
  * Checks if the window is in landscape orientation.
- * @return {boolean} true if the window is in landscape orientation, false otherwise.
+ * @return {boolean} True if the window is in landscape orientation, otherwise false.
  */
 function isLandscapeOrientation() {
     return window.matchMedia("(orientation: landscape)").matches;
 }
 
 /**
- * Starts the game by initializing elements, creating a new World instance, and handling game-over elements.
+ * Starts the game.
  */
 function startingGame() {
     restartBtn.style.backgroundImage = 'url(./img/otherimgs/icons/restart.png)';
@@ -223,6 +263,9 @@ function startingGame() {
     }, 200);
 }
 
+/**
+ * Initializes the start screen.
+ */
 function initStartScreen() {
     let controlsElement = document.getElementById('mobile-controls');
     let canvasElement = document.querySelector('canvas');
@@ -230,8 +273,12 @@ function initStartScreen() {
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
     controlsElement.classList.remove('d-none');
+    
 }
 
+/**
+ * Goes back to the start screen.
+ */
 function backStartScreen() {
     let controlsElement = document.getElementById('mobile-controls');
     initStartScreen();
@@ -241,10 +288,12 @@ function backStartScreen() {
     gameOverElement.classList.add('d-none');
     victoryElement.classList.add('d-none');
     clearAllIntervals();
+    soundEffectsOff();
+
 }
 
 /**
- * Hides the canvas and controls elements, and shows the game over element.
+ * Displays the game over screen.
  */
 function gameOver() {
     let canvasElement = document.querySelector('canvas');
@@ -255,10 +304,12 @@ function gameOver() {
     gameOverElement.classList.remove('d-none');
     lose_audio.volume = 0.2;
     lose_audio.play();
-    
     clearAllIntervals();
 }
 
+/**
+ * Displays the game victory screen.
+ */
 function gameVictory() {
     let canvasElement = document.querySelector('canvas');
     let controlsElement = document.getElementById('mobile-controls');
@@ -268,7 +319,6 @@ function gameVictory() {
     victoryElement.classList.remove('d-none');
     win_audio.volume = 0.2;
     win_audio.play();
-    
     clearAllIntervals();
 }
 
@@ -279,6 +329,7 @@ function gameVictory() {
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
+
 /** Removes the focus from the clicked button */
 let buttons = document.querySelectorAll('.button');
 buttons.forEach(function (button) {
@@ -287,10 +338,17 @@ buttons.forEach(function (button) {
     });
 });
 
+/**
+ * Opens the information box.
+ */
 function openInfo() {
     let openInfo = document.getElementById('infobox')
     openInfo.classList.remove('d-none');
 }
+
+/**
+ * Closes the information box.
+ */
 function closeInfo() {
     let closeInfo = document.getElementById('infobox')
     closeInfo.classList.add('d-none');

@@ -21,7 +21,11 @@ class Endboss extends MovableObject {
      */
     width = 250;
 
-    name = "Endboss";
+     /**
+     * Name of the end boss.
+     * @type {string}
+     */
+     name = "Endboss";
 
     /**
      * The energy level of the end boss.
@@ -91,6 +95,10 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /**
+     * Flag indicating if the alert animation has been played.
+     * @type {boolean}
+     */
     alertPlayed = false;
 
     /**
@@ -98,12 +106,15 @@ class Endboss extends MovableObject {
      */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
+        // Load images for animations
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+        // Set initial position
         this.x = 700 * 3;
+        // Start animation
         this.animate();
     }
 
@@ -113,11 +124,9 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             if (this.energy === 0) {
-                // console.log('Endboss is dead');
                 this.playAnimation(this.IMAGES_DEAD);
                 setTimeout(gameVictory, 1000);
             } else if (this.isHurt()) {
-                // console.log('Endboss is hurt');
                 this.playAnimation(this.IMAGES_HURT);
             } else {
                 this.isMove();
@@ -128,12 +137,11 @@ class Endboss extends MovableObject {
         }, 160);
     }
 
-
-
-
+/**
+     * Determines if the end boss is attacking and initiates attack animation.
+     */
     isAttacking() {
         if (world.checkSeeBoss() < 300  && this.energy > 0) {
-            // console.log('attack')
             this.playAnimation(this.IMAGES_ATTACK);
             this.speed = 25;
             this.offset = {
@@ -146,19 +154,20 @@ class Endboss extends MovableObject {
     }
 
     
-
+/**
+     * Determines if the end boss is moving and initiates movement animation.
+     */
     isMove() {
         const distanceToBoss = world.checkSeeBoss();
         if (distanceToBoss < 400 && distanceToBoss > 300 && !this.alertPlayed) {
-            // console.log('alert');
+            
             this.playAnimation(this.IMAGES_ALERT);
             this.alertPlayed = true;
         } else if (distanceToBoss <= 850) {
             this.speed = 8;
-            // console.log('walk');
+            
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
-            // Reset alertPlayed, so that the alert animation can be played again if the player enters the alert range again
             this.alertPlayed = false;
         }
     }
