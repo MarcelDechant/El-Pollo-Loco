@@ -33,12 +33,12 @@ class Coins extends MovableObject {
      * Creates an instance of Coins.
      */
     constructor() {
-        super(); // Call the superclass constructor
-        this.loadImage('img/8_coin/coin_1.png'); // Load initial image
-        this.loadImages(this.IMAGES_COINS); // Load coin animation images
-        this.x = 200 + Math.random() * 1200; // Randomize initial x position
-        this.y = 150 + Math.random() * 150; // Randomize initial y position
-        this.animate(); // Start animation
+        super();
+        this.loadImage('img/8_coin/coin_1.png');
+        this.loadImages(this.IMAGES_COINS);
+        this.x = 200 + Math.random() * 1200;
+        this.y = 150 + Math.random() * 150;
+        this.animate(); 
     }
 
     /**
@@ -46,7 +46,7 @@ class Coins extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_COINS); // Play coin animation
+            this.playAnimation(this.IMAGES_COINS);
         }, 150);
     }
     

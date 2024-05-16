@@ -60,6 +60,7 @@ function init() {
     checkMobileDevice();
     initStartScreen();
     toggleSound();
+    checkDeviceMode();
 }
 
 window.addEventListener("keydown", handleKeyDown);
@@ -177,9 +178,6 @@ controlButtons.forEach(button => {
     });
 });
 
-
-
-
 /**
  * Handles the fullscreen button click event.
  */
@@ -229,8 +227,17 @@ function isMobileDevice() {
  */
 function checkMobileDevice() {
     if (isMobileDevice() && !isLandscapeOrientation()) {
-        // alert zum schönen dialog bauen!!
         alert("Bitte drehen Sie Ihr Gerät ins Querformat, um das Spiel zu spielen.");
+    }
+}
+
+function checkDeviceMode() {
+    let isMobile = isMobileDevice();
+    let mobileButtons = document.getElementById('mobile-controls');
+    if (isMobile) {
+        mobileButtons.style.display = 'flex';
+    } else {
+        mobileButtons.style.display = 'none';
     }
 }
 
@@ -273,7 +280,7 @@ function initStartScreen() {
     canvasElement.classList.add('d-none');
     startElement.classList.remove('d-none');
     controlsElement.classList.remove('d-none');
-    
+
 }
 
 /**
@@ -321,7 +328,6 @@ function gameVictory() {
     win_audio.play();
     clearAllIntervals();
 }
-
 
 /**
  * Clears all intervals up to 99999.

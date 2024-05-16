@@ -27,11 +27,11 @@ class Cloud extends MovableObject {
      * Creates an instance of Cloud.
      */
     constructor() {
-        super(); // Call the superclass constructor
-        this.loadImage('img/5_background/layers/4_clouds/1.png'); // Load image
-        this.x = Math.random() * (2100 + 300) - 300; // Randomize initial x position
+        super();
+        this.loadImage('img/5_background/layers/4_clouds/1.png');
+        this.x = Math.random() * (2100 + 300) - 300;
         this.speed = 0.01 + Math.random() * 0.1;
-        this.animate(); // Start animation
+        this.animate();
     }
 
     /**
@@ -39,7 +39,7 @@ class Cloud extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.moveLeft(); // Move cloud left
+            this.moveLeft();
         }, 1000 / 60);
     }
 }

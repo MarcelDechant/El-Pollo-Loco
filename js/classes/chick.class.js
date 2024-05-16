@@ -78,12 +78,12 @@ class Chick extends MovableObject {
      * Creates an instance of Chick.
      */
     constructor() {
-        super(); // Call the superclass constructor
-        this.loadImage(this.IMAGES_WALKING[0]); // Load initial image
+        super(); 
+        this.loadImage(this.IMAGES_WALKING[0]); 
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 200 + Math.random() * 1500; // Randomize initial x position
-        this.speed = 0.1 + Math.random() * 0.5; // Randomize speed
-        this.animate(); // Start animation
+        this.x = 200 + Math.random() * 1500; 
+        this.speed = 0.1 + Math.random() * 0.5; 
+        this.animate(); 
     }
 
     /**
@@ -91,17 +91,17 @@ class Chick extends MovableObject {
      */
     animate() {
         setInterval(() => {
-            this.moveLeft();  // Animation logic
+            this.moveLeft();
            
         }, 1000 / 60);
 
         setInterval(() => {
             if (!this.dead_enemy) {
-                this.playAnimation(this.IMAGES_WALKING); // Play walking animation
+                this.playAnimation(this.IMAGES_WALKING);
             }
             if (this.dead_enemy) {
-                this.loadImage(this.IMAGE_DEAD); // Load dead image
-                this.y += this.speedY; // Move chick vertically
+                this.loadImage(this.IMAGE_DEAD); 
+                this.y += this.speedY;
             }
         }, 150);
     }

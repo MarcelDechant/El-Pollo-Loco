@@ -140,7 +140,7 @@ class MovableObject extends DrawableObject {
      */
     moveRight() {
         this.x += this.speed;
-        
+
     }
 
     /**
@@ -157,6 +157,6 @@ class MovableObject extends DrawableObject {
         this.speedY = 15;
         jump_audio.play();
         jump_audio.volume = 0.2;
-        
+
     }
 }

@@ -25,7 +25,7 @@ body {
     font-family: 'zabars', Arial, Helvetica, sans-serif;
     overflow: hidden;
     user-select: none;
-    gap: 10px;
+    
 }
 
 h1 {
@@ -35,6 +35,7 @@ h1 {
     background: linear-gradient(to right, #a84906, #b36029, #a96d0d, #bb280b);
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
 }
 
 canvas {
@@ -96,6 +97,7 @@ main {
     bottom: 8px;
     width: 100%;
     height: calc(6px + 5vmin);
+    display: none;
 }
 
 .mobile-control-btn {
@@ -202,15 +204,16 @@ main {
     }
 }
 
-@media screen and (max-device-width: 950px) and  (orientation:landscape) {
+@media screen and (max-device-width: 950px) and (orientation:landscape) {
     h1 {
         display: none;
     }
 }
+
 @media(max-width: 535px) {
     .infobox {
         font-size: 20px;
         gap: 10px;
     }
-    
+
 }

@@ -156,8 +156,9 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround()) {
+                if (this.character.isAboveGround() && this.character.speedY <= 0 && !(enemy instanceof Endboss)) {
                     enemy.dead_enemy = true;
+                    this.makeImmune();
                     this.character.jump();
                     dead_Chicken.play();
                     dead_Chicken.volume = 0.2;
@@ -371,7 +372,6 @@ class World {
      */
     checkChicken() {
         let numberOfChicken = world.level.enemies.filter(enemies => enemies.name === "Chicken").length;
-        // console.log(numberOfChicken)
         numbersOfChicken = numberOfChicken;
     }
 
@@ -380,7 +380,6 @@ class World {
      */
     checkChick() {
         let numberOfChick = world.level.enemies.filter(enemies => enemies.name === "Chick").length;
-        // console.log(numberOfChick)
         numbersOfChicks = numberOfChick
     }
 
@@ -407,7 +406,4 @@ class World {
 
         }
     }
-
-
-
 }
