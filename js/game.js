@@ -61,6 +61,7 @@ function init() {
     initStartScreen();
     toggleSound();
     checkDeviceMode();
+    startMobileDeviceCheck();
 }
 
 window.addEventListener("keydown", handleKeyDown);
@@ -227,17 +228,26 @@ function isMobileDevice() {
  */
 function checkMobileDevice() {
     if (isMobileDevice() && !isLandscapeOrientation()) {
-        alert("Bitte drehen Sie Ihr Gerät ins Querformat, um das Spiel zu spielen.");
+        rotateDevice.style.display = 'flex';
+    }else{
+        rotateDevice.style.display = 'none';
     }
+}
+
+function startMobileDeviceCheck() {
+    setInterval(checkMobileDevice, 500); 
 }
 
 function checkDeviceMode() {
     let isMobile = isMobileDevice();
     let mobileButtons = document.getElementById('mobile-controls');
+    let rotateDevice = document.getElementById('rotateDevice')
     if (isMobile) {
         mobileButtons.style.display = 'flex';
+        
     } else {
         mobileButtons.style.display = 'none';
+        
     }
 }
 
