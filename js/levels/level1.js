@@ -3,12 +3,12 @@ function initLevel(){
 level1 = new Level(
     // Array of enemies
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chick(),
-        new Chick(),
-        new Chick(),
+        // new Chicken(),
+        // new Chicken(),
+        // new Chicken(),
+        // new Chick(),
+        // new Chick(),
+        // new Chick(),
         new Endboss(),
     ],
     

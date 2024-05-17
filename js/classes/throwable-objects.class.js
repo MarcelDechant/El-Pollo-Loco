@@ -41,6 +41,20 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+    /**
+     * The offset values for the coins object.
+     * @type {Object}
+     * @property {number} top - The top offset.
+     * @property {number} bottom - The bottom offset.
+     * @property {number} left - The left offset.
+     * @property {number} right - The right offset.
+     */
+    offset = {
+        top: 50,
+        bottom: 50,
+        left: 35,
+        right: 35
+    };
 
     /**
      * Creates an instance of ThrowableObject.

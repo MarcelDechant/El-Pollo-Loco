@@ -25,10 +25,10 @@ class Bottle extends MovableObject {
      * @property {number} right - The right offset.
      */
     offset = {
-        top: 4,
-        bottom: 5,
-        left: 5,
-        right: 5
+        top: 15,
+        bottom: 10,
+        left: 25,
+        right: 15
     };
 
     /**

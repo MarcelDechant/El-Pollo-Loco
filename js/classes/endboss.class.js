@@ -140,11 +140,11 @@ class Endboss extends MovableObject {
     isAttacking() {
         if (world.checkSeeBoss() < 300  && this.energy > 0) {
             this.playAnimation(this.IMAGES_ATTACK);
-            this.speed = 25;
+            // this.speed = 25;
             this.offset = {
                 top: 65,
                 bottom: 50,
-                left: 30,
+                left: 50,
                 right: 30
             };
         } 
@@ -161,7 +161,7 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_ALERT);
             this.alertPlayed = true;
         } else if (distanceToBoss <= 850) {
-            this.speed = 8;
+            // this.speed = 8;
             
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
