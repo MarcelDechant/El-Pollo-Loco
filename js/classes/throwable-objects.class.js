@@ -50,10 +50,10 @@ class ThrowableObject extends MovableObject {
      * @property {number} right - The right offset.
      */
     offset = {
-        top: 50,
-        bottom: 50,
-        left: 35,
-        right: 35
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10
     };
 
     /**

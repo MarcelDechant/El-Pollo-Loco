@@ -58,6 +58,9 @@ class MovableObject extends DrawableObject {
             if (this.y > 220 && this instanceof Character) {
                 this.y = 220;
             }
+            if (this.y > 375 && this instanceof Chick && !this.dead_enemy) {
+                this.y = 375;
+            }
         }, 1000 / 25);
     }
 
@@ -68,11 +71,14 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
-        } else {
+        } else if (this instanceof Character) {
             return this.y < 220;
+        } else if (this instanceof Chick) {
+            return this.y < 375;
         }
 
     }
+
 
     /**
      * Checks if the object is on the ground.
@@ -133,6 +139,9 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+        if (this.currentImage > 10) {
+            this.currentImage = 0;
+        }
     }
 
     /**
@@ -158,5 +167,9 @@ class MovableObject extends DrawableObject {
         jump_audio.play();
         jump_audio.volume = 0.2;
 
+    }
+    chickJump() {
+        this.speedY = 15;
+        this.speed + 4;
     }
 }

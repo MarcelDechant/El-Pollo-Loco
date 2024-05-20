@@ -128,11 +128,13 @@ class Character extends MovableObject {
      * @type {string[]}
      * @description This array contains the image paths for the character's jumping animation.
      */
-    IMAGES_JUMPING = [
+    IMAGES_JUMPING_START = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
-        'img/2_character_pepe/3_jump/J-34.png',
+        'img/2_character_pepe/3_jump/J-34.png'
+    ];
+    IMAGES_JUMPING_FALL = [
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
@@ -176,11 +178,12 @@ class Character extends MovableObject {
      */
     constructor() {
         super();
-        this.loadImage('img/2_character_pepe/1_idle/idle/I-1.png'); 
+        this.loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_WALKING);
-        this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_JUMPING_FALL);
+        this.loadImages(this.IMAGES_JUMPING_START);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.applayGravity();
@@ -202,7 +205,7 @@ class Character extends MovableObject {
         const idleInterval = 200;
         const longIdleInterval = 400;
         const walkingInterval = 0;
-        const jumpingInterval = 1000;
+        const jumpingInterval = 5;
         const hurtInterval = 400;
         const deadInterval = 1000;
 
@@ -229,6 +232,7 @@ class Character extends MovableObject {
         }, movementInterval);
 
         setInterval(() => {
+            
             this.currentTime = new Date().getTime();
             this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
 
@@ -250,7 +254,11 @@ class Character extends MovableObject {
                 hurt_audio.play();
                 hurt_audio.volume = 0.2;
             } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING, jumpingInterval);
+                if (this.speedY >= 0) {
+                    this.playAnimation(this.IMAGES_JUMPING_START, jumpingInterval);
+                } else if (this.speedY <= 0) {
+                    this.playAnimation(this.IMAGES_JUMPING_FALL, jumpingInterval);
+                }
                 snoring_audio.pause();
                 characterWalk_audio.pause();
             } else {

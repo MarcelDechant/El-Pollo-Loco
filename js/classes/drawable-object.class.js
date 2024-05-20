@@ -3,52 +3,14 @@
  * @class
  */
 class DrawableObject {
-    /**
-     * The x-coordinate of the object's position.
-     * @type {number}
-     */
+    
     x = 40;
-
-    /**
-     * The y-coordinate of the object's position.
-     * @type {number}
-     */
     y = 300;
-
-    /**
-     * The image object associated with the drawable object.
-     * @type {HTMLImageElement}
-     */
     img;
-
-    /**
-     * The height of the drawable object.
-     * @type {number}
-     */
     height = 150;
-
-    /**
-     * The width of the drawable object.
-     * @type {number}
-     */
     width = 100;
-
-    /**
-     * An object used to cache images.
-     * @type {Object.<string, HTMLImageElement>}
-     */
     imageCache = {};
-
-    /**
-     * The index of the current image in the image cache.
-     * @type {number}
-     */
     currentImage = 0;
-
-    /**
-     * Loads an image from the specified path and assigns it to the img property.
-     * @param {string} path - The path to the image file.
-     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;

@@ -62,6 +62,7 @@ function init() {
     toggleSound();
     checkDeviceMode();
     startMobileDeviceCheck();
+    
 }
 
 window.addEventListener("keydown", handleKeyDown);

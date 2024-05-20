@@ -3,95 +3,23 @@
  * @class
  */
 class World {
-    /**
-     * The character in the world.
-     * @type {Character}
-     */
     character = new Character();
-
-    /**
-     * The current level.
-     * @type {Level}
-     */
     level = level1;
-
-    /**
-     * The canvas element.
-     * @type {HTMLCanvasElement}
-     */
     canvas;
-
-    /**
-     * The rendering context of the canvas.
-     * @type {CanvasRenderingContext2D}
-     */
     ctx;
-
-    /**
-     * The keyboard input.
-     * @type {Keyboard}
-     */
     keyboard;
-
-    /**
-     * The x-coordinate of the camera.
-     * @type {number}
-     */
     camera_x = 0;
-
-    /**
-     * The status bar for character life.
-     * @type {StatusBarLife}
-     */
     statusBarLife = new StatusBarLife();
-
-    /**
-     * The status bar for collected coins.
-     * @type {StatusBarCoins}
-     */
     statusBarCoins = new StatusBarCoins();
-
-    /**
-     * The status bar for collected bottles.
-     * @type {StatusBarBottle}
-     */
     statusBarBottle = new StatusBarBottle();
-
-    /**
-     * The status bar for the end boss.
-     * @type {StatusBarEndboss}
-     */
     statusBarEndboss = new StatusBarEndboss();
-
-    /**
-     * The counter for collected bottles.
-     * @type {number}
-     */
     bottle_counter = 0;
-
-    /**
-     * The counter for collected coins.
-     * @type {number}
-     */
     coin_counter = 0;
-
-    /**
-     * Array of throwable objects in the world.
-     * @type {ThrowableObject[]}
-     */
     throwableObject = [];
-
-    /**
-    * Indicates if the player is currently throwing a bottle.
-    * @type {boolean}
-    */
     throwbottle = false;
-
-    /**
-     * Indicates if the player is immune to enemy attacks.
-     * @type {boolean}
-     */
     immune = false;
+    endbossImmune = false;
+
 
     /**
      * Creates an instance of World.
@@ -180,7 +108,7 @@ class World {
      */
     makeImmune() {
         this.immune = true;
-        this.immuneTimer = setTimeout(() => {
+        setTimeout(() => {
             this.immune = false;
         }, 300);
     }
@@ -208,11 +136,13 @@ class World {
     checkCollisionBottleWithEnemy() {
         this.throwableObject.forEach((throwableObject) => {
             this.level.enemies.forEach((enemy, index) => {
-                if (throwableObject.isColliding(enemy)) {
-                    if (enemy instanceof Endboss && !throwableObject.wasHit) {
+                if (throwableObject.isColliding(enemy) && !this.endbossImmune) {
+                    console.log('broke glass')
+                    if (enemy instanceof Endboss && !throwableObject.wasHit && !this.endbossImmune) {
                         enemy.hit();
                         this.statusBarEndboss.setPercentage(enemy.energy);
                         enemy.x += 50;
+                        this.makeEndbossImmune();
                     } else {
                         enemy.dead_enemy = true;
                         dead_Chicken.play();
@@ -227,6 +157,37 @@ class World {
                 }
             });
         });
+    }
+
+    makeEndbossImmune() {
+        this.endbossImmune = true;
+        this.drawTimer(this.countdownValue);
+        this.countdown();
+        setTimeout(() => {
+            this.endbossImmune = false;
+        }, 5000);
+    }
+
+
+
+    drawTimer(countdownValue){
+        this.ctx.fillStyle = 'black';
+        this.ctx.font = '20px zabars';
+        this.ctx.fillText(countdownValue, 530, 30);
+    }
+
+    countdown(){
+        let count = 5;
+        this.drawTimer(count.toFixed(1))
+
+        const interval = setInterval(()=> {
+            count -= 0.1;
+            this.drawTimer(count.toFixed(1));
+            console.log(count.toFixed(1));
+            if (count <= 0.1) {
+                clearInterval(interval);
+            }
+        }, 100);
     }
 
     /**
@@ -263,6 +224,7 @@ class World {
                 let seeBoss = Math.abs(this.character.x - enemy.x);
                 if (seeBoss < 550) {
                     this.addToMap(this.statusBarEndboss);
+
                 }
                 return seeBoss;
             }

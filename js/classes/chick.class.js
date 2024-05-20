@@ -32,7 +32,7 @@ class Chick extends MovableObject {
      * The vertical speed of the chick.
      * @type {number}
      */
-    speedY = 10;
+    speedY = 0;
 
     /**
      * The offset values for the chick object.
@@ -72,37 +72,55 @@ class Chick extends MovableObject {
      * @type {string}
      */
     name = "Chick";
-   
+
 
     /**
      * Creates an instance of Chick.
      */
     constructor() {
-        super(); 
-        this.loadImage(this.IMAGES_WALKING[0]); 
+        super();
+        this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 200 + Math.random() * 1500; 
-        this.speed = 0.1 + Math.random() * 0.5; 
-        this.animate(); 
+        this.x = 200 + Math.random() * 2100;
+        this.speed = 0.1 + Math.random() * 1.2;
+        this.applayGravity();
+        this.animate();
+
     }
 
     /**
      * Animates the chick object based on its state.
      */
     animate() {
+        let counter = 0;
         setInterval(() => {
+            counter++;
+            const randomInterval = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+            if (counter % randomInterval === 0) {
+                this.makeJump();
+                counter = 0;
+            }
             this.moveLeft();
-           
         }, 1000 / 60);
 
         setInterval(() => {
             if (!this.dead_enemy) {
                 this.playAnimation(this.IMAGES_WALKING);
+
             }
             if (this.dead_enemy) {
-                this.loadImage(this.IMAGE_DEAD); 
-                this.y += this.speedY;
+                this.loadImage(this.IMAGE_DEAD);
+                this.y -= this.speedY;
             }
         }, 150);
+    }
+
+    makeJump() {
+        setInterval(() => {
+            if (this.y == 375 && !this.dead_enemy) {
+                console.log('sprung')
+                this.chickJump();
+            }
+        }, 4000);
     }
 }
