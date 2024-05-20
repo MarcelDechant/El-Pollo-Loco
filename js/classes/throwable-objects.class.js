@@ -4,23 +4,15 @@
  * @extends MovableObject
  */
 class ThrowableObject extends MovableObject {
-
-    /**
-     * Indicates whether the object was hit or not.
-     * @type {boolean}
-     */
     wasHit = false;
-
-    /**
-     * The ground level where the throwable object lands.
-     * @type {number}
-     */
     ground = 370;
-
-    /**
-     * Array of image paths representing the throwable object when thrown.
-     * @type {string[]}
-     */
+    offset = {
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10
+    };
+    
     THROW_BOTTLE = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -28,10 +20,6 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
     ];
 
-    /**
-     * Array of image paths representing the throwable object when it splashes after hitting something.
-     * @type {string[]}
-     */
     THROW_BOTTLE_SPLASH = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -40,21 +28,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
-
-    /**
-     * The offset values for the coins object.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
-    offset = {
-        top: 10,
-        bottom: 10,
-        left: 10,
-        right: 10
-    };
+    
 
     /**
      * Creates an instance of ThrowableObject.

@@ -4,44 +4,12 @@
  * @extends MovableObject
  */
 class Chick extends MovableObject {
-    /**
-     * The y-coordinate of the chick's position.
-     * @type {number}
-     */
     y = 370;
-
-    /**
-     * The height of the chick object.
-     * @type {number}
-     */
     height = 40;
-
-    /**
-     * The width of the chick object.
-     * @type {number}
-     */
     width = 40;
-
-    /**
-     * Flag indicating if the chick enemy is dead.
-     * @type {boolean}
-     */
     dead_enemy = false;
-
-    /**
-     * The vertical speed of the chick.
-     * @type {number}
-     */
     speedY = 0;
-
-    /**
-     * The offset values for the chick object.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
+    name = "Chick";
     offset = {
         top: 2,
         bottom: 5,
@@ -49,31 +17,13 @@ class Chick extends MovableObject {
         right: 5
     };
 
-    /**
-     * Array of image paths for walking animation.
-     * @type {string[]}
-     * @description This array contains the image paths for the chick's walking animation.
-     */
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
-    /**
-     * Array of image paths for dead animation.
-     * @type {string[]}
-     * @description This array contains the image path for the chick's dead animation.
-     */
     IMAGE_DEAD = ['img/3_enemies_chicken/chicken_small/2_dead/dead.png'];
-
-    /**
-     * Name of the chick.
-     * @type {string}
-     */
-    name = "Chick";
-
-
     /**
      * Creates an instance of Chick.
      */

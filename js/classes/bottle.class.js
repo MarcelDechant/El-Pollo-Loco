@@ -4,26 +4,9 @@
  * @extends MovableObject
  */
 class Bottle extends MovableObject {
-    /**
-     * The height of the bottle object.
-     * @type {number}
-     */
     height = 70;
-
-    /**
-     * The width of the bottle object.
-     * @type {number}
-     */
     width = 70;
 
-    /**
-     * The offset values for the bottle object.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
     offset = {
         top: 15,
         bottom: 10,
@@ -31,10 +14,6 @@ class Bottle extends MovableObject {
         right: 15
     };
 
-    /**
-     * The array of image paths for bottle animation.
-     * @type {string[]}
-     */
     IMAGES_BOTTLE = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'

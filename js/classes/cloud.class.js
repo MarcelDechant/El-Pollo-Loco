@@ -4,23 +4,8 @@
  * @extends MovableObject
  */
 class Cloud extends MovableObject {
-    /**
-     * The y-coordinate of the cloud's position.
-     * @type {number}
-     */
     y = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
-
-    /**
-     * The width of the cloud object.
-     * @type {number}
-     */
     width = 500;
-
-
-    /**
-     * The height of the cloud object.
-     * @type {number}
-     */
     height = 250;
 
     /**

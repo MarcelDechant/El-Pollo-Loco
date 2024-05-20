@@ -4,40 +4,11 @@
  * @extends DrawableObject
  */
 class MovableObject extends DrawableObject {
-    /**
-     * The speed of the object.
-     * @type {number}
-     */
     speed = 0.1;
-
-    /**
-     * Flag indicating the direction of the object.
-     * @type {boolean}
-     */
     otherDirection = false;
-
-    /**
-     * The vertical speed of the object.
-     * @type {number}
-     */
     speedY = 0;
-
-    /**
-     * The acceleration due to gravity.
-     * @type {number}
-     */
     acceleration = 1;
-
-    /**
-     * The timestamp of the last hit received by the object.
-     * @type {number}
-     */
     lastHit = 0;
-
-    /**
-     * The offset values for collision detection.
-     * @type {object}
-     */
     offset = {
         top: 0,
         left: 0,

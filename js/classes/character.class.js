@@ -4,80 +4,21 @@
  * @extends MovableObject
  */
 class Character extends MovableObject {
-    /**
-     * The y-coordinate of the character's position.
-     * @type {number}
-     */
     y = 220;
-
-    /**
-     * The height of the character object.
-     * @type {number}
-     */
     height = 200;
-
-    /**
-     * The width of the character object.
-     * @type {number}
-     */
     width = 100;
-
-    /**
-     * The speed of the character.
-     * @type {number}
-     */
     speed = 0.1 * 30;
-
-    /**
-     * The energy level of the character.
-     * @type {number}
-     */
     energy = 100;
-
-    /**
-     * The offset values for the character object.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
     offset = {
         top: 80,
         bottom: 10,
         left: 20,
         right: 25
     };
-
-    /**
-     * Reference to the world object.
-     * @type {World}
-     */
     world;
-
-    /**
-     * Current time.
-     * @type {number}
-     */
     currentTime;
-
-    /**
-     * Time since last movement.
-     * @type {number}
-     */
     timeSinceLastMovement;
-
-    /**
-     * Timestamp of the last movement.
-     * @type {number}
-     */
     lastMovement = new Date().getTime();
-
-    /**
-    * Array of image paths for idle animation.
-    * @type {string[]}
-    * @description This array contains the image paths for the character's idle animation.
-    */
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -91,11 +32,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-    /**
-     * Array of image paths for long idle animation.
-     * @type {string[]}
-     * @description This array contains the image paths for the character's long idle animation.
-     */
     IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -107,13 +43,8 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-18.png',
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
-    ]
+    ];
 
-    /**
-     * Array of image paths for walking animation.
-     * @type {string[]}
-     * @description This array contains the image paths for the character's walking animation.
-     */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -123,17 +54,13 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
-    /**
-     * Array of image paths for jumping animation.
-     * @type {string[]}
-     * @description This array contains the image paths for the character's jumping animation.
-     */
     IMAGES_JUMPING_START = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png'
     ];
+
     IMAGES_JUMPING_FALL = [
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
@@ -142,11 +69,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
-    /**
-         * Array of image paths for hurt animation.
-         * @type {string[]}
-         * @description This array contains the image paths for the character's hurt animation.
-         */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
@@ -154,11 +76,6 @@ class Character extends MovableObject {
 
     ];
 
-    /**
-         * Array of image paths for dead animation.
-         * @type {string[]}
-         * @description This array contains the image paths for the character's dead animation.
-         */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',

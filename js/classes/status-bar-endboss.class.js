@@ -4,11 +4,6 @@
  * @extends DrawableObject
  */
 class StatusBarEndboss extends DrawableObject {
-
-    /**
-     * Array of image paths representing the status bar at different percentages.
-     * @type {string[]}
-     */
     IMAGES_LIVE = [
         'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
         'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
@@ -17,11 +12,6 @@ class StatusBarEndboss extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
         'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
     ];
-
-    /**
-     * The current percentage of the status bar.
-     * @type {number}
-     */
     percentage = 100;
 
 

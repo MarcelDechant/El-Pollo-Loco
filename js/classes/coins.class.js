@@ -4,24 +4,10 @@
  * @extends MovableObject
  */
 class Coins extends MovableObject {
-    /**
-     * Array of image paths for coin animation.
-     * @type {string[]}
-     * @description This array contains the image paths for the coin animation.
-     */
     IMAGES_COINS = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
     ];
-
-    /**
-     * The offset values for the coins object.
-     * @type {Object}
-     * @property {number} top - The top offset.
-     * @property {number} bottom - The bottom offset.
-     * @property {number} left - The left offset.
-     * @property {number} right - The right offset.
-     */
     offset = {
         top: 50,
         bottom: 50,

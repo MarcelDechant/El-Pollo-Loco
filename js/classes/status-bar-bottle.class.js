@@ -4,11 +4,6 @@
  * @extends DrawableObject
  */
 class StatusBarBottle extends DrawableObject {
-
-    /**
-     * Array of image paths representing the status bar at different percentages.
-     * @type {string[]}
-     */
     IMAGES_LIVE = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
@@ -18,10 +13,6 @@ class StatusBarBottle extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
     ];
 
-    /**
-     * The current percentage of the status bar.
-     * @type {number}
-     */
     percentage = 0;
 
     /**

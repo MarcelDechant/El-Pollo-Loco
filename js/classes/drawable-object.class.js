@@ -3,7 +3,6 @@
  * @class
  */
 class DrawableObject {
-    
     x = 40;
     y = 300;
     img;
