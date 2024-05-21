@@ -59,6 +59,7 @@ class ThrowableObject extends MovableObject {
                     bottleBrock_audio.play();
                     bottleBrock_audio.volume = 0.03;
                     this.breakSoundPlayed = true;
+
                 }
                 setTimeout(() => {
                     this.wasHit = false;

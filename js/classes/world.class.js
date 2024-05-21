@@ -19,6 +19,7 @@ class World {
     throwbottle = false;
     immune = false;
     endbossImmune = false;
+    endbossCountdown = 0;
 
 
     /**
@@ -137,7 +138,6 @@ class World {
         this.throwableObject.forEach((throwableObject) => {
             this.level.enemies.forEach((enemy, index) => {
                 if (throwableObject.isColliding(enemy) && !this.endbossImmune) {
-                    console.log('broke glass')
                     if (enemy instanceof Endboss && !throwableObject.wasHit && !this.endbossImmune) {
                         enemy.hit();
                         this.statusBarEndboss.setPercentage(enemy.energy);
@@ -153,38 +153,46 @@ class World {
                         }, 1000);
                     }
                     throwableObject.wasHit = true;
-
                 }
             });
         });
     }
 
+    /**
+ * Makes the end boss immune to attacks for a short period.
+ */
     makeEndbossImmune() {
+        this.endbossCountdown = 5;
         this.endbossImmune = true;
-        this.drawTimer(this.countdownValue);
         this.countdown();
         setTimeout(() => {
+            this.endbossCountdown = 0;
             this.endbossImmune = false;
         }, 5000);
     }
 
-
-
-    drawTimer(countdownValue){
+    /**
+     * Draws the countdown timer on the canvas.
+     * @param {string} countdownValue - The value of the countdown timer.
+     * @param {number} x - The x-coordinate where the countdown timer should be drawn.
+     * @param {number} y - The y-coordinate where the countdown timer should be drawn.
+     */
+    drawTimer(countdownValue, x, y) {
         this.ctx.fillStyle = 'black';
         this.ctx.font = '20px zabars';
-        this.ctx.fillText(countdownValue, 530, 30);
+        this.ctx.fillText(countdownValue, x, y);
     }
 
-    countdown(){
-        let count = 5;
-        this.drawTimer(count.toFixed(1))
-
-        const interval = setInterval(()=> {
-            count -= 0.1;
-            this.drawTimer(count.toFixed(1));
-            console.log(count.toFixed(1));
-            if (count <= 0.1) {
+    /**
+     * Starts the countdown timer.
+     */
+    countdown() {
+        this.endbossCountdown = 5;
+        const interval = setInterval(() => {
+            this.endbossCountdown -= 0.1;
+            const roundedCountdown = this.endbossCountdown.toFixed(1);
+            this.drawTimer(roundedCountdown, 530, 30);
+            if (this.endbossCountdown <= 0.1) {
                 clearInterval(interval);
             }
         }, 100);
@@ -224,7 +232,7 @@ class World {
                 let seeBoss = Math.abs(this.character.x - enemy.x);
                 if (seeBoss < 550) {
                     this.addToMap(this.statusBarEndboss);
-
+                    this.drawTimer(this.endbossCountdown.toFixed(1), 530, 30);
                 }
                 return seeBoss;
             }

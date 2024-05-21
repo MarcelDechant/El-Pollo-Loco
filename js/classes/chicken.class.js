@@ -23,7 +23,7 @@ class Chicken extends MovableObject {
     ];
 
     IMAGE_DEAD = ['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
-
+    otherDirection = false;
 
     /**
      * Creates an instance of Chicken.
@@ -33,27 +33,64 @@ class Chicken extends MovableObject {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.x = 200 + Math.random() * 2100;
+        this.direction = this.x < 0 ? 'right' : 'left';
         this.speed = 0.1 + Math.random() * 1.2;
         this.animate();
+        this.otherDirection = this.direction === 'right';
     }
 
-    /**
-     * Animates the chicken object based on its state.
-     */
-    animate() {
-        setInterval(() => {
-            this.moveLeft(); 
-        }, 1000 / 60);
+   /**
+ * Animates the chicken object based on its state.
+ * This function controls the animation of the chicken, including its movement and visual state.
+ */
+animate() {
+    setInterval(() => {
+        this.checkDirection();
+        this.move();
+    }, 1000 / 60);
 
-        setInterval(() => {
-            if (!this.dead_enemy) {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-            if (this.dead_enemy) {
-                this.loadImage(this.IMAGE_DEAD);
-                this.y += this.speedY;
-                
-            }
-        }, 150);
+    setInterval(() => {
+        this.animateState();
+    }, 150);
+}
+
+/**
+ * Checks the direction of the chicken's movement based on its current position.
+ * If the chicken reaches the predefined boundaries, its direction is updated accordingly.
+ */
+checkDirection() {
+    if (this.x >= 1700) {
+        this.direction = 'left';
+        this.otherDirection = false;
+    } else if (this.x <= -710) {
+        this.direction = 'right';
+        this.otherDirection = true;
     }
+}
+
+/**
+ * Moves the chicken based on its current direction.
+ * This function executes the movement of the chicken based on its current direction.
+ */
+move() {
+    if (this.direction === 'left') {
+        this.moveLeft();
+    } else if (this.direction === 'right') {
+        this.moveRight();
+    }
+}
+
+/**
+ * Controls the visual state of the chicken.
+ * This function manages the visual state of the chicken, including walking animation and death animation.
+ */
+animateState() {
+    if (!this.dead_enemy) {
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+    if (this.dead_enemy) {
+        this.loadImage(this.IMAGE_DEAD);
+        this.y += this.speedY;
+    }
+}
 }

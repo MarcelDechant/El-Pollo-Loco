@@ -1,85 +1,17 @@
-/**
- * Represents the background audio element.
- * @type {HTMLAudioElement}
- */
+
 let background_audio = new Audio('./audio/Backgroundmusic.mp3');
-
-/**
- * Represents the bottle pickup audio element.
- * @type {HTMLAudioElement}
- */
 let bottlePickup_audio = new Audio('./audio/bottlePickup.mp3');
-
-/**
- * Represents the chicken walk audio element.
- * @type {HTMLAudioElement}
- */
 let chickenWalk_audio = new Audio('audio/chicken.mp3');
-
-/**
- * Represents the chicks walk audio element.
- * @type {HTMLAudioElement}
- */
 let chicksWalk_audio = new Audio('./audio/chicks.mp3');
-
-/**
- * Represents the coin audio element.
- * @type {HTMLAudioElement}
- */
 let coin_audio = new Audio('./audio/coin.mp3');
-
-/**
- * Represents the bottle broken audio element.
- * @type {HTMLAudioElement}
- */
 let bottleBrock_audio = new Audio('./audio/glassbroken.mp3');
-
-/**
- * Represents the hurt audio element.
- * @type {HTMLAudioElement}
- */
 let hurt_audio = new Audio('./audio/hurt.mp3');
-
-/**
- * Represents the jump audio element.
- * @type {HTMLAudioElement}
- */
 let jump_audio = new Audio('./audio/jump.mp3');
-
-/**
- * Represents the lose audio element.
- * @type {HTMLAudioElement}
- */
 let lose_audio = new Audio('audio/lose.mp3');
-
-/**
- * Represents the snoring audio element.
- * @type {HTMLAudioElement}
- */
 let snoring_audio = new Audio('./audio/snoring.mp3');
-
-/**
- * Represents the bottle throw audio element.
- * @type {HTMLAudioElement}
- */
 let bottleThrow_audio = new Audio('./audio/throw.mp3');
-
-/**
- * Represents the character walk audio element.
- * @type {HTMLAudioElement}
- */
 let characterWalk_audio = new Audio('./audio/walking.mp3');
-
-/**
- * Represents the win audio element.
- * @type {HTMLAudioElement}
- */
 let win_audio = new Audio('audio/win.mp3');
-
-/**
- * Represents the dead chicken audio element.
- * @type {HTMLAudioElement}
- */
 let dead_Chicken = new Audio('audio/dead_chicken.mp3');
 
 /**
@@ -102,17 +34,7 @@ let audioEffects = [
     win_audio,
     dead_Chicken,
 ];
-
-/**
- * Represents the mute status of audio.
- * @type {boolean}
- */
 let isMuted = false;
-
-/**
- * Button for toggling audio.
- * @type {HTMLElement}
- */
 let BtnAudioToggle = document.getElementById('soundToggle');
 
 /**

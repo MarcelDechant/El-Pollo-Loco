@@ -139,6 +139,10 @@ class MovableObject extends DrawableObject {
         jump_audio.volume = 0.2;
 
     }
+
+    /**
+     * Makes the Chick jump.
+     */
     chickJump() {
         this.speedY = 15;
         this.speed + 4;

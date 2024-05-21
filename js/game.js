@@ -1,55 +1,12 @@
 
-/**
- * Represents the canvas element.
- * @type {HTMLCanvasElement}
- */
 let canvas;
-
-/**
- * Represents the game world.
- * @type {World}
- */
 let world;
-
-/**
- * Represents the keyboard input.
- * @type {Keyboard}
- */
 let keyboard = new Keyboard();
-
-/**
- * Array containing interval IDs.
- * @type {number[]}
- */
 let intervalIds = [];
-
-/**
- * Represents the fullscreen mode status.
- * @type {boolean}
- */
 let isFullscreen = false;
-
-/**
- * Represents the restart button element.
- * @type {HTMLElement}
- */
 let restartBtn = document.getElementById("startGame");
-
-/**
- * Represents the start screen button element.
- * @type {HTMLElement}
- */
 let startScreenBtn = document.getElementById('startScreenBtn');
-
-/**
- * Represents the game over element.
- * @type {HTMLElement}
- */
 let gameOverElement = document.getElementById('game-over');
-/**
- * Represents the game victory element.
- * @type {HTMLElement}
- */
 let victoryElement = document.getElementById('game-victory');
 
 /**
@@ -215,12 +172,11 @@ function exitFullscreen() {
 
 
 /**
- * Checks if the user agent is a mobile device.
- * @returns {boolean} True if the user agent is a mobile device, false otherwise.
+ * Checks if the current device is a mobile device based on touch capability.
+ * @returns {boolean} True if the device is a mobile device, otherwise false.
  */
 function isMobileDevice() {
-    let mobileAgents = ['Android', 'webOS', 'iPhone', 'iPad', 'BlackBerry', 'IEMobile', 'Opera Mini', 'Windows Phone', 'UCWEB', 'Chrome OS', 'Symbian', 'SymbianOS', 'BlackBerry OS', 'Nokia', 'Opera Mini', 'Opera Mobile', 'PalmOS', 'PalmSource', 'Xoom', 'WAP', 'WAP2', 'WAP2.0', 'WAP2.1'];
-    return mobileAgents.some(agent => navigator.userAgent.includes(agent));
+    return 'maxTouchPoints' in navigator && navigator.maxTouchPoints > 0;
 }
 
 /**
@@ -277,7 +233,7 @@ function startingGame() {
         canvasElement.classList.remove('d-none');
         gameOverElement.classList.add('d-none');
         startElement.classList.add('d-none');
-        controlsElement.classList.remove('d-none');
+        controlsElement.classList.remove('d-none'); 
     }, 200);
 }
 
@@ -317,6 +273,8 @@ function gameOver() {
     let canvasElement = document.querySelector('canvas');
     let controlsElement = document.getElementById('mobile-controls');
     let gameOverElement = document.getElementById('game-over');
+    let victoryElement = document.getElementById('game-victory');
+    victoryElement.classList.add('d-none');
     canvasElement.classList.add('d-none');
     controlsElement.classList.add('d-none');
     gameOverElement.classList.remove('d-none');
@@ -332,6 +290,8 @@ function gameVictory() {
     let canvasElement = document.querySelector('canvas');
     let controlsElement = document.getElementById('mobile-controls');
     let victoryElement = document.getElementById('game-victory');
+    let gameOverElement = document.getElementById('game-over');
+    gameOverElement.classList.add('d-none');
     canvasElement.classList.add('d-none');
     controlsElement.classList.add('d-none');
     victoryElement.classList.remove('d-none');

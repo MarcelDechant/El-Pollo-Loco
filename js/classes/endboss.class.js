@@ -75,7 +75,7 @@ class Endboss extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else {
-                // this.isMove();
+                this.isMove();
             }
         }, 160);
         setInterval(() => {
@@ -89,8 +89,7 @@ class Endboss extends MovableObject {
     isAttacking() {
         if (world.checkSeeBoss() < 300  && this.energy > 0) {
             this.playAnimation(this.IMAGES_ATTACK);
-            // console.log('speed 25')
-            this.speed = 25;
+            this.speed = 35;
             this.offset = {
                 top: 65,
                 bottom: 50,
@@ -107,13 +106,10 @@ class Endboss extends MovableObject {
     isMove() {
         const distanceToBoss = world.checkSeeBoss();
         if (distanceToBoss < 400 && distanceToBoss > 300 && !this.alertPlayed) {
-            
             this.playAnimation(this.IMAGES_ALERT);
             this.alertPlayed = true;
         } else if (distanceToBoss <= 850) {
-            // console.log('speed 8')
-            this.speed = 8;
-            
+            this.speed = 18;
             this.playAnimation(this.IMAGES_WALKING);
             this.x -= this.speed;
             this.alertPlayed = false;

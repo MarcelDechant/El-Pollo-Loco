@@ -103,90 +103,175 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING_START);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.x = -520;
         this.applayGravity();
         this.animate();
     }
 
 
+
     /**
- * Animates the character object based on its state and user input.
- * @memberof Character
- * @function animate
- * @this {Character}
- * @description This function handles the animation of the character based on its state and user input.
+ * Main function to control the character's animation.
  */
     animate() {
         this.lastMovement = new Date().getTime();
         const movementInterval = 10;
         const stateInterval = 120;
-        const idleInterval = 200;
-        const longIdleInterval = 400;
-        const walkingInterval = 0;
-        const jumpingInterval = 5;
-        const hurtInterval = 400;
-        const deadInterval = 1000;
 
         setInterval(() => {
-
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.enemies.filter(enemy => enemy instanceof Endboss)[0].x + 40) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.lastMovement = new Date().getTime();
-            }
-
-            if (this.world.keyboard.LEFT && this.x > -617) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.lastMovement = new Date().getTime();
-            }
-
-            if (this.world.keyboard.UP && !this.isAboveGround()) {
-                this.jump();
-                this.lastMovement = new Date().getTime();
-            }
-
-            this.world.camera_x = -this.x + 100;
+            this.moveCharacter();
         }, movementInterval);
 
         setInterval(() => {
-            
-            this.currentTime = new Date().getTime();
-            this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
-
-            if (this.timeSinceLastMovement >= 2) {
-                this.playAnimation(this.IMAGES_IDLE, idleInterval);
-            }
-
-            if (this.timeSinceLastMovement >= 5) {
-                this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
-                snoring_audio.play();
-                snoring_audio.volume = 0.2;
-            }
-
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD, deadInterval);
-                setTimeout(gameOver, 1000);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT, hurtInterval);
-                hurt_audio.play();
-                hurt_audio.volume = 0.2;
-            } else if (this.isAboveGround()) {
-                if (this.speedY >= 0) {
-                    this.playAnimation(this.IMAGES_JUMPING_START, jumpingInterval);
-                } else if (this.speedY <= 0) {
-                    this.playAnimation(this.IMAGES_JUMPING_FALL, jumpingInterval);
-                }
-                snoring_audio.pause();
-                characterWalk_audio.pause();
-            } else {
-                characterWalk_audio.pause();
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING, walkingInterval);
-                    snoring_audio.pause();
-                    characterWalk_audio.play();
-                    characterWalk_audio.volume = 0.1;
-                }
-            }
+            this.checkCharacterState();
         }, stateInterval);
+    }
+
+    /**
+     * Helper function to handle the right movement of the character.
+     */
+    moveCharacterRight() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.enemies.filter(enemy => enemy instanceof Endboss)[0].x + 40) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.lastMovement = new Date().getTime();
+        }
+    }
+
+    /**
+     * Helper function to handle the left movement of the character.
+     */
+    moveCharacterLeft() {
+        if (this.world.keyboard.LEFT && this.x > -617) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.lastMovement = new Date().getTime();
+        }
+    }
+
+    /**
+     * Helper function to handle the jump action of the character.
+     */
+    handleCharacterJump() {
+        if (this.world.keyboard.UP && !this.isAboveGround()) {
+            this.jump();
+            this.lastMovement = new Date().getTime();
+        }
+    }
+
+    /**
+     * Helper function to handle the space action of the character.
+     */
+    handleCharacterSpace() {
+        if (this.world.keyboard.SPACE && (this.timeSinceLastMovement >= 5 || this.timeSinceLastMovement >= 2)) {
+            this.lastMovement = new Date().getTime();
+            this.loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
+        }
+    }
+
+    /**
+     * Helper function to update the camera position based on the character's position.
+     */
+    updateCamera() {
+        this.world.camera_x = -this.x + 100;
+    }
+
+    /**
+     * Helper function to control the movement of the character.
+     */
+    moveCharacter() {
+        this.moveCharacterRight();
+        this.moveCharacterLeft();
+        this.handleCharacterJump();
+        this.handleCharacterSpace();
+        this.updateCamera();
+    }
+
+    /**
+  * Helper function to check and play idle animations.
+  */
+    checkIdleState() {
+        const idleInterval = 200;
+        const longIdleInterval = 400;
+        if (this.timeSinceLastMovement >= 2) {
+            this.playAnimation(this.IMAGES_IDLE, idleInterval);
+        }
+
+        if (this.timeSinceLastMovement >= 5) {
+            this.playAnimation(this.IMAGES_LONG_IDLE, longIdleInterval);
+            snoring_audio.play();
+            snoring_audio.volume = 0.2;
+        }
+    }
+
+    /**
+     * Helper function to check and play dead animation.
+     */
+    checkDeadState() {
+        const deadInterval = 1000;
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD, deadInterval);
+            setTimeout(gameOver, 1000);
+        }
+    }
+
+    /**
+     * Helper function to check and play hurt animation.
+     */
+    checkHurtState() {
+        const hurtInterval = 400;
+        if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT, hurtInterval);
+            hurt_audio.play();
+            hurt_audio.volume = 0.2;
+        }
+    }
+
+    /**
+     * Helper function to check and play jumping animations.
+     */
+    checkJumpingState() {
+        const jumpingInterval = 5;
+        if (this.isAboveGround()) {
+            if (this.speedY >= 0) {
+                this.playAnimation(this.IMAGES_JUMPING_START, jumpingInterval);
+            } else if (this.speedY <= 0) {
+                this.playAnimation(this.IMAGES_JUMPING_FALL, jumpingInterval);
+            }
+            snoring_audio.pause();
+            characterWalk_audio.pause();
+        }
+    }
+
+    /**
+     * Helper function to check and play walking animation.
+     */
+    checkWalkingState() {
+        const walkingInterval = 0;
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_WALKING, walkingInterval);
+            snoring_audio.pause();
+            characterWalk_audio.play();
+            characterWalk_audio.volume = 0.1;
+        }
+    }
+
+    /**
+     * Helper function to check the current state of the character and play the corresponding animation.
+     */
+    checkCharacterState() {
+        this.currentTime = new Date().getTime();
+        this.timeSinceLastMovement = (this.currentTime - this.lastMovement) / 1000;
+
+        this.checkIdleState();
+        this.checkDeadState();
+        this.checkHurtState();
+        if (!this.isDead() && !this.isHurt()) {
+            this.checkJumpingState();
+            if (!this.isAboveGround()) {
+                characterWalk_audio.pause();
+                this.checkWalkingState();
+            }
+        }
     }
 }
